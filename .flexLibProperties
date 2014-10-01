@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="com.adobe.flex.extras.controls.forcelayout.AbstractEdge"/>
+    <classEntry path="com.adobe.flex.extras.controls.forcelayout.ForceDirectedLayout"/>
+    <classEntry path="com.adobe.flex.extras.controls.forcelayout.IDataProvider"/>
+    <classEntry path="com.adobe.flex.extras.controls.forcelayout.IEdge"/>
+    <classEntry path="com.adobe.flex.extras.controls.forcelayout.IForEachEdge"/>
+    <classEntry path="com.adobe.flex.extras.controls.forcelayout.IForEachNode"/>
+    <classEntry path="com.adobe.flex.extras.controls.forcelayout.IForEachNodePair"/>
+    <classEntry path="com.adobe.flex.extras.controls.forcelayout.Node"/>
+    <classEntry path="com.adobe.flex.extras.controls.springgraph.DefaultItemView"/>
+    <classEntry path="com.adobe.flex.extras.controls.springgraph.Graph"/>
+    <classEntry path="com.adobe.flex.extras.controls.springgraph.GraphDataProvider"/>
+    <classEntry path="com.adobe.flex.extras.controls.springgraph.GraphEdge"/>
+    <classEntry path="com.adobe.flex.extras.controls.springgraph.GraphNode"/>
+    <classEntry path="com.adobe.flex.extras.controls.springgraph.HistorySeed"/>
+    <classEntry path="com.adobe.flex.extras.controls.springgraph.HistorySeedView"/>
+    <classEntry path="com.adobe.flex.extras.controls.springgraph.IEdgeRenderer"/>
+    <classEntry path="com.adobe.flex.extras.controls.springgraph.IMenuBarHandler"/>
+    <classEntry path="com.adobe.flex.extras.controls.springgraph.IViewFactory"/>
+    <classEntry path="com.adobe.flex.extras.controls.springgraph.Item"/>
+    <classEntry path="com.adobe.flex.extras.controls.springgraph.Roamer"/>
+    <classEntry path="com.adobe.flex.extras.controls.springgraph.SpringGraph"/>
+    <classEntry path="com.adobe.flex.extras.controls.springgraph.myEdgeRenderer"/>
+    <classEntry path="com.adobe.flex.extras.controls.springgraph.myItemView"/>
+    <classEntry path="com.adobe.flex.extras.controls.springgraph.myViewFactory"/>
+  </includeClasses>
+  <includeResources>
+    <resourceEntry destPath="manifest.xml" sourcePath="manifest.xml"/>
+    <resourceEntry destPath="com/.DS_Store" sourcePath="com/.DS_Store"/>
+    <resourceEntry destPath="com/adobe/flex/extras/controls/.DS_Store" sourcePath="com/adobe/flex/extras/controls/.DS_Store"/>
+  </includeResources>
+  <namespaceManifests>
+    <namespaceManifestEntry manifest="manifest.xml" namespace="http://www.adobe.com/2006/fc"/>
+  </namespaceManifests>
+</flexLibProperties>

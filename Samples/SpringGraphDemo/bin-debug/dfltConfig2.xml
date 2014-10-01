@@ -1,0 +1,36 @@
+<topologyConfig>
+  <dfltCenterID value="001002"/>
+  <showStatus value="true"/>
+  <showRate value="false"/>
+  <showAttack value="true"/>
+  <identify value="ip"/>
+  <distance value="4"/>
+  <maxNode value="50"/>
+  <manual value="true"/>
+  <autoFit value="true"/>
+  <alpha value="1.0"/>
+  <fontSize value="24"/>
+  <fontColor value="0x000000"/>
+  <rateLine value="2"/>
+  <window value="1"/>
+  <refreshInterval value="200"/>
+  <repulsion value="1.0"/>
+  <scale value="0.5"/>
+  <numNodeFontSize value="30"/>
+  <numNodeFontColor value="0x0000ff"/>
+  <backGroundColor value="0xFFFFFF"/>
+  <horizontalScroll value="auto"/>
+  <verticalScroll value="off"/>
+  <treeFilePath value="/home/tts/online/data/nbadroute.tree"/>
+  <atkFilePath value="./nbadroute.atk"/>
+  <statusFilePath value="/home/tts/online/data/nbadroute.status"/>
+  <redirectFilePath value="/home/tts/online/work/"/>
+  <mrtgDirPathFlashView value="/nbad/"/>
+  <mrtgDirPathPHPView value="/nbad/"/>
+  <charEncoding value="big5"/>
+  <hideVlan value="false"/>
+  <saveButtonX value="180"/>
+  <saveButtonY value="0"/>
+  <manualButtonX value="239"/>
+  <manualButtonY value="0"/>
+</topologyConfig>

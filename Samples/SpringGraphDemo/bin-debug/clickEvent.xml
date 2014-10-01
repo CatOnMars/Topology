@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<clickEvent>
+<doubleClick>
+  <dev type="Switch" DevIconUrl="(redirect.1)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="Host" DevIconUrl="(redirect.1)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="VLAN" DevIconUrl="(redirect.1)" />
+  <dev type="Router" DevIconUrl="(redirect.1)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="Edge" EdgeUrl="(mrtgPath)(ip)/day(idx)content.html" />
+</doubleClick>
+<rightClickMenu>
+  <dev type="Router">
+	<item label="Show Day Statistics" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="Show Week Statistics" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="Show Month Statistics" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="Show Year Statistics" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+	<item label="Show All Statistics" url="(mrtgPath)(ip)/(idx).html" enabled="true" />
+  </dev>
+  <dev type="Switch" ip="192.168.10.227">
+	<item label="Show Day Statistics" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="Show Week Statistics" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="Show Month Statistics" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="Show Year Statistics" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+	<item label="Show All Statistics" url="(mrtgPath)(ip)/(idx).html" enabled="true" />
+  </dev>
+  <dev type="Switch">
+	<item label="Show Day Statistics" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="Show Week Statistics" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="Show Month Statistics" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="Show Year Statistics" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+	<item label="Show All Statistics" url="(mrtgPath)(ip)/(idx).html" enabled="true" />
+  </dev>
+  <dev type="VLAN">
+	<item label="Show Day Statistics" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="Show Week Statistics" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="Show Month Statistics" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="Show Year Statistics" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+	<item label="Show All Statistics" url="(mrtgPath)(ip)/(idx).html" enabled="true" />
+  </dev>
+  <dev type="Firewall">
+	<item label="Show Day Statistics" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="Show Week Statistics" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="Show Month Statistics" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="Show Year Statistics" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+	<item label="Show All Statistics" url="(mrtgPath)(ip)/(idx).html" enabled="true" />
+  </dev>
+  <dev type="IP">
+	<item label="Show Day Statistics" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="Show Week Statistics" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="Show Month Statistics" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="Show Year Statistics" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+	<item label="Show All Statistics" url="(mrtgPath)(ip)/(idx)content.html" enabled="true" />
+  </dev>
+  <dev type="DMZ">
+	<item label="Show Day Statistics" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="Show Week Statistics" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="Show Month Statistics" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="Show Year Statistics" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+	<item label="Show All Statistics" url="(mrtgPath)(ip)/(idx)content.html" enabled="true" />
+  </dev>	
+  <dev type="Host">
+	<item label="Show Day Statistics" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="Show Week Statistics" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="Show Month Statistics" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="Show Year Statistics" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+	<item label="Show All Statistics" url="(mrtgPath)(ip)/(idx)content.html" enabled="true" />
+  </dev>
+  <dev type="Cloud">
+	<item label="Show Day Statistics" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="Show Week Statistics" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="Show Month Statistics" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="Show Year Statistics" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+	<item label="Show All Statistics" url="(mrtgPath)(ip)/(idx)content.html" enabled="true" />
+  </dev>
+</rightClickMenu>
+</clickEvent>

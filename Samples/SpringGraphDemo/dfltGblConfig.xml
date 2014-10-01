@@ -1,0 +1,7 @@
+<topologyConfig>
+  <window value="1"/>
+  <maxWindow value="4"/>
+  <refreshInterval value="300"/>
+  <horizontalScroll value="auto"/>
+  <verticalScroll value="off"/>
+</topologyConfig>

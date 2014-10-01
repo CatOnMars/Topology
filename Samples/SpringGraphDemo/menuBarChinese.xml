@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="big5"?>
+<xmlDoc>
+  <menuitem label="網路">
+  </menuitem>
+  <menuitem label="顯示">
+  	<menuitem label="速度" data="showRate" type="check"/>
+  	<menuitem label="攻擊" data="showAttack" type="check"/>
+  	<menuitem label="狀態" data="showStatus" type="check"/>
+    <menuitem label="裝置識別">
+  	  <menuitem label="IP" data="txt_ip" type="radio" groupName="distance"/>
+  		<menuitem label="名稱" data="txt_name" type="radio" groupName="distance"/>
+  	</menuitem> 
+  </menuitem>
+  <menuitem label="設定">
+  	<menuitem label="最大顯示節點距離">
+  	  <menuitem label="2" data="distance_2" type="radio" groupName="distance"/>
+  		<menuitem label="3" data="distance_3" type="radio" groupName="distance"/>
+  		<menuitem label="4" data="distance_4" type="radio" groupName="distance"/>
+  		<menuitem label="5" data="distance_5" type="radio" groupName="distance"/>
+  		<menuitem label="6" data="distance_6" type="radio" groupName="distance"/>
+  		<menuitem label="7" data="distance_7" type="radio" groupName="distance"/>
+  	</menuitem>
+  	<menuitem label="最大顯示節點數">
+  	  <menuitem label="10" data="node_10" type="radio" groupName="node"/>
+  	  <menuitem label="25" data="node_25" type="radio" groupName="node"/>
+  	  <menuitem label="50" data="node_50" type="radio" groupName="node"/>
+  		<menuitem label="100" data="node_100" type="radio" groupName="node"/>
+  		<menuitem label="300" data="node_300" type="radio" groupName="node"/>
+  		<menuitem label="500" data="node_500" type="radio" groupName="node"/>
+  		<menuitem label="800" data="node_800" type="radio" groupName="node"/>
+  		<menuitem label="1000" data="node_1000" type="radio" groupName="node"/>
+  	</menuitem>
+  </menuitem>
+</xmlDoc>

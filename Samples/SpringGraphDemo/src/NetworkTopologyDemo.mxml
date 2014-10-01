@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:fc="http://www.adobe.com/2006/fc" 
+	layout="absolute" width="100%" height="100%" viewSourceURL="srcview/index.html" initialize="init()" backgroundColor="#F1F6F8" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#F0F5F8, #0A1B2D]" xmlns:iframe="http://code.google.com/p/flex-iframe/">
+	
+	<!--
+		Copyright 2006 Mark E Shepherd
+
+		Licensed under the Apache License, Version 2.0 (the "License");
+		you may not use this file except in compliance with the License.
+		You may obtain a copy of the License at
+
+				http://www.apache.org/licenses/LICENSE-2.0
+
+		Unless required by applicable law or agreed to in writing, software
+		distributed under the License is distributed on an "AS IS" BASIS,
+		WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+		See the License for the specific language governing permissions and
+		limitations under the License.
+	-->
+	
+	<!-- SpringGraphDemo.mxml is the main application file. -->
+	
+	<mx:Script>
+		<![CDATA[
+			import com.adobe.flex.extras.controls.springgraph.Graph;
+			import com.adobe.flex.extras.controls.springgraph.GraphNode;
+			import com.adobe.flex.extras.controls.springgraph.Item;
+			import com.adobe.flex.extras.controls.springgraph.Roamer;
+			import com.adobe.flex.extras.controls.springgraph.SpringGraph;
+			import com.adobe.flex.extras.controls.springgraph.myEdgeRenderer;
+			import com.adobe.flex.extras.controls.springgraph.myViewFactory;
+			
+			import flash.net.URLLoader;
+			import flash.net.URLRequest;
+			import flash.net.URLRequestHeader;
+			import flash.net.navigateToURL;
+			
+			import mx.containers.Canvas;
+			import mx.containers.Panel;
+			import mx.controls.Alert;
+			import mx.controls.MenuBar;
+			import mx.events.MenuEvent;
+			import mx.managers.PopUpManager;
+			
+			/*var for receiving URL variable*/
+			private var CanSave: String = "NO";
+			private var SessionID: String = "";
+			private var Lang: String = "";
+						
+			private var roamerArray:Array = new Array();
+			private var refreshPeriod:Number;
+			private var timeToRefresh:Number;
+			
+			//protected var dfltPHPDIR:String = "http://localhost/";
+			protected var dfltPHPDIR:String = "../";
+			
+			private var urGblConfigXML:URLRequest = new URLRequest();
+			private var ulGblConfigXML:URLLoader;
+			
+			private var urSaveGblConfig:URLRequest = new URLRequest();
+			private var loaderSaveGblConfig:URLLoader;
+			
+			var header:URLRequestHeader = new URLRequestHeader("pragma", "no-cache");
+
+			
+			var topologyContainer:Canvas = new Canvas();
+			
+			private function init():void {
+				CanSave = this.parameters.CanSave;
+				SessionID = this.parameters.SessionID;
+				Lang = this.parameters.Lang;
+				
+				getSetGblDefaultConfig();
+			}
+			
+			
+			
+			private function getSetGblDefaultConfig():void {
+				urGblConfigXML.url = dfltPHPDIR + "dfltGblConfig.xml";
+				urGblConfigXML.method = URLRequestMethod.GET;
+				urGblConfigXML.requestHeaders.push(header);
+				urGblConfigXML.data = new URLVariables("time="+Number(new Date().getTime()));
+				ulGblConfigXML = new URLLoader();
+				ulGblConfigXML.load(urGblConfigXML);
+				ulGblConfigXML.addEventListener(Event.COMPLETE, setGblDefaultConfig);
+			}
+			
+			private var dfltWindow:int = 1;
+			private var dfltMaxWindow:int = 4;
+			private var dfltRefreshInterval:int = 5;
+			private var configXml:XML;
+			
+			private function setGblDefaultConfig(ev:Event):void {
+				configXml = new XML(ulGblConfigXML.data);
+				
+				dfltWindow = configXml.window.@value;
+				dfltMaxWindow = configXml.maxWindow.@value;
+				dfltRefreshInterval = configXml.refreshInterval.@value;
+				this.horizontalScrollPolicy = configXml.horizontalScroll.@value;
+				this.verticalScrollPolicy = configXml.verticalScroll.@value;
+				
+				ulGblConfigXML.close();
+				initPhase2();
+			}
+			
+			private function initPhase2():void {
+				
+				topologyContainer.x = 0;
+				topologyContainer.y = 40;
+				
+				topologyContainer.setStyle("backgroundColor", "0x000000");
+				
+				topologyContainer.percentHeight = 100;
+				topologyContainer.percentWidth = 100;
+				
+				this.addChild(topologyContainer);
+				
+				if(dfltWindow > dfltMaxWindow)
+					dfltWindow = dfltMaxWindow;
+				
+				for(var i:int=0; i<dfltWindow; i++)
+					addTopology(topologyContainer);
+				
+				refreshPeriod = dfltRefreshInterval;
+				timeToRefresh = 5;
+				refreshTime.text = String(dfltRefreshInterval);
+				
+				var timer:Timer = new Timer(100, 0);
+				timer.addEventListener(TimerEvent.TIMER, onTick);
+				timer.start();
+			}
+			
+			
+			private var n_topology:int = 0;
+			
+			private function addClick():void
+			{
+				var modified:Boolean;
+				modified = addTopology(topologyContainer);
+				if(modified == true)
+					doSaveGblConfig();
+			}
+			
+			private function delClick():void
+			{
+				var modified:Boolean;
+				modified = delTopology(topologyContainer);
+				if(modified == true)
+					doSaveGblConfig();
+			}
+			
+			private function doSaveGblConfig():void
+			{
+				configXml.window.@value = n_topology.toString();
+				configXml.refreshInterval.@value = refreshPeriod.toString();
+				
+				trace(configXml);
+				
+				urSaveGblConfig.url =  dfltPHPDIR + "saveCfg.php";
+				urSaveGblConfig.method = URLRequestMethod.POST;
+				urSaveGblConfig.requestHeaders.push(header);
+				urSaveGblConfig.data = new URLVariables("newConfig="+configXml.toString()+"&fileName="+"dfltGblConfig.xml"+"&time="+Number(new Date().getTime()));
+				loaderSaveGblConfig = new URLLoader();
+				loaderSaveGblConfig.load(urSaveGblConfig);
+				
+			}
+			
+		
+			private function delTopology(topologyContainer:Canvas):Boolean
+			{
+				if(n_topology <= 1)
+					return false;
+
+				topologyContainer.removeChild(roamerArray[n_topology -1]);
+				n_topology --;
+				arrangeTopologys(roamerArray);
+				return true;
+			}
+			
+			private function createIframeWindow(roamer:Roamer):void{
+			//	roamer.mrtgWebPath;
+				roamer.createInfoWindow(this);
+			//	Alert.show(this.height.toString());
+				SpringGraph.infoWinDev.height=this.height-(SpringGraph.infoWinMrtg.y+SpringGraph.infoWinMrtg.height)+10;
+
+			}
+			private function addTopology(topologyContainer:Canvas):Boolean
+			{
+				if(n_topology >= dfltMaxWindow)
+					return false;
+				
+				if(roamerArray.length < dfltMaxWindow)
+				{
+					var roamer:Roamer = new Roamer;
+					roamerArray.push(roamer);					
+					roamer.roamerIdx = roamerArray.length;
+					if(CanSave == "NO")
+						roamer.canSave = false;
+					else
+						roamer.canSave = true;
+					roamer.sessionID = SessionID;
+					roamer.lang = Lang;
+					if(roamer.lang == null)
+						roamer.lang = "";
+					trace("lang=" + roamer.lang);
+					roamer.locationFileName = "location" + roamerArray.length + ".xml" ;
+					roamer.initTopology();
+					
+					//roamer.parseTreeDataAndDisplay();
+				}
+				topologyContainer.addChild(roamerArray[n_topology]);
+				n_topology ++;
+				arrangeTopologys(roamerArray);
+				return true;
+			}
+			
+			private function arrangeTopologys(roamerArray:Array):void
+			{
+				if(n_topology == 1)
+				{
+					var roamer:Roamer = roamerArray[0];
+					roamer.percentWidth = 100;
+					roamer.percentHeight = 100;
+					createIframeWindow(roamer);
+				}
+				else if(n_topology == 2)
+				{
+					var roamer:Roamer = roamerArray[0];
+					roamer.setStyle("left", "0");
+					roamer.percentWidth = 49.9;
+					roamer.percentHeight = 100;
+					createIframeWindow(roamer);
+					
+					roamer = roamerArray[1];
+					roamer.setStyle("right", "0");
+					roamer.percentWidth = 50;
+					roamer.percentHeight = 100;
+				}
+				else if(n_topology == 3)
+				{
+					var roamer:Roamer = roamerArray[0];
+					roamer.setStyle("top", "0");
+					roamer.setStyle("left", "0");
+					roamer.percentWidth = 49.9;
+					roamer.percentHeight = 100;
+					createIframeWindow(roamer);
+					
+					roamer = roamerArray[1];
+					roamer.setStyle("top", "0");
+					roamer.setStyle("bottom", "");
+					roamer.setStyle("left", "");
+					roamer.setStyle("right", "0");
+					roamer.percentWidth = 50;
+					roamer.percentHeight = 49.9;
+					
+					roamer = roamerArray[2];
+					roamer.setStyle("bottom", "0");
+					roamer.setStyle("right", "0");
+					roamer.percentWidth = 50;
+					roamer.percentHeight = 50;
+				}
+				else if(n_topology == 4)
+				{
+					var roamer:Roamer = roamerArray[0];
+					roamer.setStyle("top", "0");
+					roamer.setStyle("left", "0");
+					roamer.percentWidth = 49.9;
+					roamer.percentHeight = 49.9;
+					createIframeWindow(roamer);
+					
+					roamer = roamerArray[1];
+					roamer.setStyle("top", "0");
+					roamer.setStyle("right", "0");
+					roamer.percentWidth = 50;
+					roamer.percentHeight = 49.9;
+					
+					roamer = roamerArray[2];
+					roamer.setStyle("bottom", "0");
+					roamer.setStyle("right", "0");
+					roamer.percentWidth = 49.9;
+					roamer.percentHeight = 50;
+					
+					roamer = roamerArray[3];
+					roamer.setStyle("bottom", "0");
+					roamer.setStyle("left", "0");
+					roamer.percentWidth = 50;
+					roamer.percentHeight = 50;
+				}
+				
+			}
+			
+			private function updateClick():void{
+				timeToRefresh = 0;
+			}
+			
+			private function onTick(ev:Event):void {
+				timeToRefresh -= 0.1;
+				if(timeToRefresh <= 0)
+				{
+					
+					for each (var roamer: Roamer in roamerArray)
+					{
+						////roamer.doSaveLocation();
+						////roamer.genTopologyData();
+						roamer.loadRedirect();
+						//roamer.refreshAttack();
+						roamer.refreshRate();
+						//roamer.refresStatus();
+					//	roamer.doSaveSndConfig();
+				//		roamer.loadSnd();
+					//	roamer.checkAndPlaySnd();
+					}
+					timeToRefresh = refreshPeriod;
+				}
+			
+				timeLeftLable.text = timeToRefresh.toFixed(1).toString();
+			}
+			
+			
+			private function changeRefreshPeriod(newPeriod: String): void {
+				refreshPeriod = Number(newPeriod);
+				timeToRefresh = refreshPeriod; 
+				doSaveGblConfig();
+			}
+			
+			public function changePanel(panelXml:XML): void {
+
+				for each (var itemXml: XML in panelXml.descendants("panelItem")) 
+				{
+					if(this.hasOwnProperty(itemXml.@id))
+					{
+						if(this.getChildByName(itemXml.@id) is Button)
+							Button(this.getChildByName(itemXml.@id)).label = itemXml.@val;
+						if(this.getChildByName(itemXml.@id) is Label)
+							Label(this.getChildByName(itemXml.@id)).text = itemXml.@val;
+					}
+					
+				}
+				
+			}
+
+			
+
+			protected function toggleInfoWin_changeHandler(event:Event):void
+			{
+				
+				// TODO Auto-generated method stub
+				if(this.toggleInfoWin.selected){
+					SpringGraph.infoWinVisible=true;
+					SpringGraph.infoWinMrtg.visible=true;
+					SpringGraph.infoWinDev.visible=true;
+				}
+				else{
+					SpringGraph.infoWinVisible=false;
+					SpringGraph.infoWinMrtg.visible=false;
+					SpringGraph.infoWinDev.visible=false;
+				}
+				SpringGraph.infoWinVisible=this.toggleInfoWin.selected;
+			}
+
+		]]>
+	
+	</mx:Script>
+	<mx:Button width="83" id="bUpdate" name="bUpdate" click="updateClick()" x="10" y="10" label="更新拓樸"/>
+	
+	<mx:Button width="74" id="bAddW" name="bAddW" click="addClick()" x="101" y="10" label="增加視窗"/>
+	
+	<mx:Button width="77" id="bDelW" name="bDelW" click="delClick()" x="183" y="10" label="刪除視窗"/>
+	
+	<mx:Button x="369" y="10" id="bSetTime" name="bSetTime" width="73" label="設定時間" click="changeRefreshPeriod(refreshTime.text)"/>
+	<mx:Label x="450" y="12" id="lUpdateT" name="lUpdateT" text="更新倒數時間" height="26"/>
+	<mx:TextInput x="525" y="10" width="42" text="5" id="refreshTime"/>
+	<mx:Label x="575" y="12" text="5" height="26" id="timeLeftLable"/>
+	<mx:CheckBox x="268" y="10" id="toggleInfoWin" label="資訊視窗" width="80" change="toggleInfoWin_changeHandler(event)"/>
+	
+	
+</mx:Application>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xmlDoc>
+  <menuitem label="網路">
+  </menuitem>
+  <menuitem label="顯示">
+  	<menuitem label="流量" data="showRate" type="check"/>
+  	<menuitem label="攻擊偵測" data="showAttack" type="check"/>
+  	<menuitem label="裝置狀態" data="showStatus" type="check"/>
+    <menuitem label="裝置身分">
+  	  <menuitem label="IP" data="txt_ip" type="radio" groupName="distance"/>
+  		<menuitem label="Name" data="txt_name" type="radio" groupName="distance"/>
+  	</menuitem> 
+	<menuitem label="隱藏VLAN" data="hideVlan" type="check"/>
+  </menuitem>
+  <menuitem label="組態設定">
+  	<menuitem label="最大拓樸階層深度">
+  	  <menuitem label="2" data="distance_2" type="radio" groupName="distance"/>
+  		<menuitem label="3" data="distance_3" type="radio" groupName="distance"/>
+  		<menuitem label="4" data="distance_4" type="radio" groupName="distance"/>
+  		<menuitem label="5" data="distance_5" type="radio" groupName="distance"/>
+  		<menuitem label="6" data="distance_6" type="radio" groupName="distance"/>
+  		<menuitem label="7" data="distance_7" type="radio" groupName="distance"/>
+  	</menuitem>
+  	<menuitem label="最大裝置數目">
+  	  <menuitem label="10" data="node_10" type="radio" groupName="node"/>
+  	  <menuitem label="25" data="node_25" type="radio" groupName="node"/>
+  	  <menuitem label="50" data="node_50" type="radio" groupName="node"/>
+  		<menuitem label="100" data="node_100" type="radio" groupName="node"/>
+  		<menuitem label="300" data="node_300" type="radio" groupName="node"/>
+  		<menuitem label="500" data="node_500" type="radio" groupName="node"/>
+  		<menuitem label="800" data="node_800" type="radio" groupName="node"/>
+  		<menuitem label="1000" data="node_1000" type="radio" groupName="node"/>
+  	</menuitem>
+  </menuitem>
+  <panelItem id="bUpdate" val="更新拓樸" />
+  <panelItem id="bAddW" val="增加視窗" />
+  <panelItem id="bDelW" val="刪除視窗" />
+  <panelItem id="bSetTime" val="設定時間" />
+  <panelItem id="lUpdateT" val="更新倒數時間" />
+</xmlDoc>

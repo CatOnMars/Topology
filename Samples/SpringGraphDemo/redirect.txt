@@ -1,0 +1,5 @@
+﻿ip	192.168.10.53	http://www.google.com.tw	http://www.yahoo.com.tw	http://www.nctu.edu.tw
+ip	192.168.10.11	http://www.youtube.com.tw	http://www.facebook.com.tw	http://www.ntu.edu.tw
+ip	192.168.12.254	http://www.realtek.com.tw	http://www.ebay.com.tw	http://www.ncu.edu.tw
+idx	51	http://www.google.com.tw
+name	教學網路	http://www.google.com.tw

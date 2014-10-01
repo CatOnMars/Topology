@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" 
+				xmlns:iframe="http://code.google.com/p/flex-iframe/"
+				x="3" y="60" name="infoWindow" width="240" height="190" visible="false" showCloseButton="true" close="titlewindow1_closeHandler(event)" mouseOut="titlewindow1_mouseOutHandler(event)" borderThicknessBottom="0" borderThicknessTop="3">
+	<mx:Script>
+		<![CDATA[
+			import mx.events.CloseEvent;
+
+			var lock:Boolean=false;
+			var otherWin:infoWindow;
+			protected function titlewindow1_closeHandler(event:CloseEvent):void
+			{
+				
+				this.visible=false;
+				this.getChildByName("frame").visible=false;
+			}
+
+
+			protected function titlewindow1_mouseOutHandler(event:MouseEvent):void
+			{
+				lock=false;
+				otherWin.lock=false;
+			}
+
+		]]>
+	</mx:Script>
+	<iframe:IFrame name="frame" width="100%" height="100%">
+	</iframe:IFrame>
+
+</mx:TitleWindow>
+

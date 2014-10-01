@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ATTACK>
+<ATTACK_SRC ip="192.168.10.164" id="1"/>
+<ATTACK_VICTIM ip="192.168.12.254" id="1"/>
+<ATTACK_VICTIM ip="192.168.11.92" id="1"/>
+<ATTACK_SRC ip="192.168.10.12" id="2"/>
+<ATTACK_VICTIM ip="192.168.11.254" id="2"/>
+<ATTACK_VICTIM ip="192.168.11.92" id="2"/>
+</ATTACK>
