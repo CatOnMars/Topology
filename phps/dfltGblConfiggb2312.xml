@@ -1,0 +1,13 @@
+<topologyConfig>
+  <window value="1"/>
+  <maxWindow value="4"/>
+  <refreshInterval value="30"/>
+  <horizontalScroll value="auto"/>
+  <verticalScroll value="off"/>
+  <stringAddWin value="增加视窗"/>
+  <stringDelWin value="删除视窗"/>
+  <stringUpdate value="更新拓朴"/>
+  <stringInfoWin value="信息视窗"/>
+  <stringSetTime value="设定时间"/>
+  <stringUpdateTime value="更新倒数时间"/>
+</topologyConfig>

@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<clickEvent>
+<doubleClick>
+  <dev type="Router" DevIconUrl="(redirect.1)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="Switch" DevIconUrl="(redirect.1)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="Stack" DevIconUrl="(redirect.1)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="WLanController" DevIconUrl="(redirect.1)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="vSwitch" DevIconUrl="(redirect.1)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="AP" DevIconUrl="(redirect.10)" attackUrl="(redirect.2)" />
+  <dev type="Firewall" DevIconUrl="(redirect.10)" attackUrl="(redirect.2)" />
+  <dev type="Host" DevIconUrl="(redirect.3)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="VM" DevIconUrl="(redirect.3)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="VMhost" DevIconUrl="(redirect.3)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="VT" DevIconUrl="(redirect.3)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="IPcamera" DevIconUrl="(redirect.3)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="IPphone" DevIconUrl="(redirect.3)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="MFP" DevIconUrl="(redirect.3)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="Printer" DevIconUrl="(redirect.3)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="VLAN" DevIconUrl="(redirect.1)" StatusIconUrl="(redirect.3)" />
+  <dev type="Group" DevIconUrl="(redirect.3)" StatusIconUrl="(redirect.3)" />
+  <dev type="IP" DevIconUrl="(redirect.10)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="DMZ" DevIconUrl="(redirect.1)" StatusIconUrl="(redirect.0)" />
+  <dev type="NCM" DevIconUrl="(redirect.10)" StatusIconUrl="(redirect.0)" />
+  <dev type="Mobile" DevIconUrl="(redirect.10)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="MvDevice" DevIconUrl="(redirect.10)" StatusIconUrl="(redirect.0)" attackUrl="(redirect.2)" />
+  <dev type="Edge" EdgeUrl="(mrtgPath)(ip)/day(idx)content.html" />
+</doubleClick>
+<rightClickMenu>
+  <dev type="Router">
+	<item label="設備狀態" url="(redirect.1)" enabled="true" />
+	<item label="ARP 查詢" url="(redirect.4)" enabled="true" />
+	<item label="MAC 查詢" url="(redirect.5)" enabled="true" />
+	<item label="路由表" url="(redirect.14)" enabled="true" />
+	<item label="CPU 趨勢圖" url="(redirect.7)" enabled="true" />
+	<item label="Memory 趨勢圖" url="(redirect.8)" enabled="true" />
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+	<item label="日流量圖" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="週流量圖" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="月流量圖" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="年流量圖" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+  </dev>
+  <dev type="Switch">
+	<item label="設備狀態" url="(redirect.1)" enabled="true" />
+	<item label="ARP 查詢" url="(redirect.4)" enabled="true" />
+	<item label="MAC 查詢" url="(redirect.5)" enabled="true" />
+	<item label="在線分析" url="(redirect.6)" enabled="true" />
+	<item label="路由表" url="(redirect.14)" enabled="true" />
+	<item label="CPU 趨勢圖" url="(redirect.7)" enabled="true" />
+	<item label="Memory 趨勢圖" url="(redirect.8)" enabled="true" />
+	<item label="Other 趨勢圖" url="(redirect.11)" enabled="true" />
+	<item label="Other2 趨勢圖" url="(redirect.12)" enabled="true" />
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+	<item label="日流量圖" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="週流量圖" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="月流量圖" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="年流量圖" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+  </dev>
+  <dev type="Stack">
+	<item label="設備狀態" url="(redirect.1)" enabled="true" />
+	<item label="ARP 查詢" url="(redirect.4)" enabled="true" />
+	<item label="MAC 查詢" url="(redirect.5)" enabled="true" />
+	<item label="在線分析" url="(redirect.6)" enabled="true" />
+	<item label="路由表" url="(redirect.14)" enabled="true" />
+	<item label="CPU 趨勢圖" url="(redirect.7)" enabled="true" />
+	<item label="Memory 趨勢圖" url="(redirect.8)" enabled="true" />
+	<item label="Other 趨勢圖" url="(redirect.11)" enabled="true" />
+	<item label="Other2 趨勢圖" url="(redirect.12)" enabled="true" />
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+	<item label="日流量圖" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="週流量圖" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="月流量圖" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="年流量圖" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+  </dev>
+  <dev type="WLanController">
+	<item label="設備狀態" url="(redirect.1)" enabled="true" />
+	<item label="ARP 查詢" url="(redirect.4)" enabled="true" />
+	<item label="MAC 查詢" url="(redirect.5)" enabled="true" />
+	<item label="在線分析" url="(redirect.6)" enabled="true" />
+	<item label="路由表" url="(redirect.14)" enabled="true" />
+	<item label="CPU 趨勢圖" url="(redirect.7)" enabled="true" />
+	<item label="Memory 趨勢圖" url="(redirect.8)" enabled="true" />
+	<item label="Other 趨勢圖" url="(redirect.11)" enabled="true" />
+	<item label="Other2 趨勢圖" url="(redirect.12)" enabled="true" />
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+	<item label="日流量圖" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="週流量圖" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="月流量圖" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="年流量圖" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+  </dev>
+  <dev type="vSwitch">
+	<item label="設備狀態" url="(redirect.1)" enabled="true" />
+	<item label="ARP 查詢" url="(redirect.4)" enabled="true" />
+	<item label="MAC 查詢" url="(redirect.5)" enabled="true" />
+	<item label="在線分析" url="(redirect.6)" enabled="true" />
+	<item label="路由表" url="(redirect.14)" enabled="true" />
+	<item label="CPU 趨勢圖" url="(redirect.7)" enabled="true" />
+	<item label="Memory 趨勢圖" url="(redirect.8)" enabled="true" />
+	<item label="Other 趨勢圖" url="(redirect.11)" enabled="true" />
+	<item label="Other2 趨勢圖" url="(redirect.12)" enabled="true" />
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+	<item label="日流量圖" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="週流量圖" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="月流量圖" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="年流量圖" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+  </dev>
+  <dev type="AP">
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+  </dev>
+  <dev type="VLAN">
+	<item label="VLAN廣播監控" url="(redirect.1)" enabled="true" />
+	<item label="VLAN拓樸" url="(redirect.3)" enabled="true" />
+	<item label="VLAN IP使用列表" url="(redirect.4)" enabled="true" />
+	<item label="VLAN 身份使用列表" url="(redirect.5)" enabled="true" />
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+	<item label="日流量圖" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="週流量圖" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="月流量圖" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="年流量圖" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+  </dev>
+  <dev type="Group">
+	<item label="群組拓樸" url="(redirect.3)" enabled="true" />
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+  </dev>
+  <dev type="Firewall">
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+	<item label="日流量圖" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="週流量圖" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="月流量圖" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="年流量圖" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+  </dev>
+  <dev type="IP">
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+	<item label="日流量圖" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="週流量圖" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="月流量圖" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="年流量圖" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+  </dev>
+  <dev type="DMZ">
+	<item label="NBAD拓樸圖" url="(redirect.1)" enabled="true" />
+	<item label="NBAD連線" url="(redirect.4)" enabled="true" />
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+	<item label="日流量圖" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="週流量圖" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="月流量圖" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="年流量圖" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+  </dev>	
+  <dev type="Host">
+	<item label="反應趨勢圖" url="(redirect.3)" enabled="true" />
+	<item label="效能分析" url="(redirect.6)" enabled="true" />
+	<item label="CPU 趨勢圖" url="(redirect.7)" enabled="true" />
+	<item label="Memory 趨勢圖" url="(redirect.8)" enabled="true" />
+	<item label="Other 趨勢圖" url="(redirect.11)" enabled="true" />
+	<item label="Other2 趨勢圖" url="(redirect.12)" enabled="true" />
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+	<item label="日流量圖" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="週流量圖" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="月流量圖" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="年流量圖" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+  </dev>
+  <dev type="VM">
+	<item label="反應趨勢圖" url="(redirect.3)" enabled="true" />
+	<item label="效能分析" url="(redirect.6)" enabled="true" />
+	<item label="CPU 趋势图" url="(redirect.7)" enabled="true" />
+	<item label="Memory 趋势图" url="(redirect.8)" enabled="true" />
+	<item label="Other 趋势图" url="(redirect.11)" enabled="true" />
+	<item label="Other2 趋势图" url="(redirect.12)" enabled="true" />
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+	<item label="日流量圖" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="週流量圖" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="月流量圖" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="年流量圖" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+  </dev>
+  <dev type="VMhost">
+	<item label="反應趨勢圖" url="(redirect.3)" enabled="true" />
+	<item label="CPU 趨勢圖" url="(redirect.7)" enabled="true" />
+	<item label="Memory 趨勢圖" url="(redirect.8)" enabled="true" />
+	<item label="Other 趨勢圖" url="(redirect.11)" enabled="true" />
+	<item label="Other2 趨勢圖" url="(redirect.12)" enabled="true" />
+	<item label="效能分析" url="(redirect.6)" enabled="true" />
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+	<item label="日流量圖" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="週流量圖" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="月流量圖" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="年流量圖" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+  </dev>
+  <dev type="VT">
+	<item label="反應趨勢圖" url="(redirect.3)" enabled="true" />
+	<item label="效能分析" url="(redirect.6)" enabled="true" />
+	<item label="CPU 趋势图" url="(redirect.7)" enabled="true" />
+	<item label="Memory 趋势图" url="(redirect.8)" enabled="true" />
+	<item label="Other 趋势图" url="(redirect.11)" enabled="true" />
+	<item label="Other2 趋势图" url="(redirect.12)" enabled="true" />
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+	<item label="日流量圖" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="週流量圖" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="月流量圖" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="年流量圖" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+  </dev>
+  <dev type="IPcamera">
+	<item label="反應趨勢圖" url="(redirect.3)" enabled="true" />
+	<item label="效能分析" url="(redirect.6)" enabled="true" />
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+	<item label="日流量圖" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="週流量圖" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="月流量圖" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="年流量圖" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+  </dev>
+  <dev type="IPphone">
+	<item label="反應趨勢圖" url="(redirect.3)" enabled="true" />
+	<item label="效能分析" url="(redirect.6)" enabled="true" />
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+	<item label="日流量圖" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="週流量圖" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="月流量圖" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="年流量圖" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+  </dev>
+  <dev type="MFP">
+	<item label="反應趨勢圖" url="(redirect.3)" enabled="true" />
+	<item label="效能分析" url="(redirect.6)" enabled="true" />
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+	<item label="日流量圖" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="週流量圖" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="月流量圖" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="年流量圖" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+  </dev>
+  <dev type="Printer">
+	<item label="反應趨勢圖" url="(redirect.3)" enabled="true" />
+	<item label="效能分析" url="(redirect.6)" enabled="true" />
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+	<item label="日流量圖" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="週流量圖" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="月流量圖" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="年流量圖" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+  </dev>
+  <dev type="NCM">
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+  </dev>
+  <dev type="Mobile">
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+  </dev>
+  <dev type="MvDevice">
+	<item label="效能分析" url="(redirect.6)" enabled="true" />
+	<item label="外部說明" url="(redirect.10)" enabled="true" />
+  </dev>
+  <dev type="Cloud">
+	<item label="日流量圖" url="(mrtgPath)(ip)/day(idx)content.html" enabled="true" />
+	<item label="週流量圖" url="(mrtgPath)(ip)/week(idx)content.html" enabled="true" />
+	<item label="月流量圖" url="(mrtgPath)(ip)/month(idx)content.html" enabled="true" />
+	<item label="年流量圖" url="(mrtgPath)(ip)/year(idx)content.html" enabled="true" />
+  </dev>
+</rightClickMenu>
+</clickEvent>
