@@ -1631,7 +1631,7 @@ package com.adobe.flex.extras.controls.springgraph {
 			var data1:Object;
 			var data2:Object;
 			
-			if(itemCount > _itemLimit) return 0; //0 = stop
+			if(itemCount >= _itemLimit) return 0; //0 = stop
 			if(graph.find(item.id) != null)
 			{
 				return 1; //1= skip and continue
@@ -1656,8 +1656,9 @@ package com.adobe.flex.extras.controls.springgraph {
 		
 				if(neighbor.id.length/3 <= _maxDistanceFromCurrent) 
 				{
-					addToGraph(neighbor, neighbor.id.length/3, graph);
-										
+					if(addToGraph(neighbor, neighbor.id.length/3, graph) == 0)
+						return 2;  //2= success, go on
+	
 					data1 = fullGraph.getLinkData(item, neighbor);
 					data2 = fullGraph.getLinkData(neighbor, item);
 					
