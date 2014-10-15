@@ -282,6 +282,8 @@ package com.adobe.flex.extras.controls.springgraph
 						else if(txPercent >100)
 							data1 = {settings: {alpha: 0.9, color: /*red*/0xff0000, thickness: 4}};
 					}
+					data1["rxRate"] = rxRate;
+					data1["txRate"] = txRate;
 					
 					var data2:Object = new Object();
 					if(rxRate == -1)
@@ -299,6 +301,8 @@ package com.adobe.flex.extras.controls.springgraph
 						else if(rxPercent >100)
 							data2 = {settings: {alpha: 0.9, color: /*red*/0xff0000, thickness: 4}};
 					}
+					data2["rxRate"] = rxRate;
+					data2["txRate"] = txRate;
 					
 					this.linkDoubleColor(fromItem, toItem, data1, data2);	
 				}
@@ -326,6 +330,7 @@ package com.adobe.flex.extras.controls.springgraph
 					txRate = edge.attribute(txRateName);
 					toItem.rxRate = rxRate;
 					toItem.txRate = txRate;
+					//Alert.show(toItem.id + " " + toItem.rxRate + " " + toItem.txRate);
 					
 					bandwidth = edge.attribute(bwName);
 					
@@ -352,6 +357,8 @@ package com.adobe.flex.extras.controls.springgraph
 						else if(txPercent >100)
 							data1 = {settings: {alpha: 0.9, color: /*red*/0xff0000, thickness: 4}};
 					}
+					data1["rxRate"] = rxRate;
+					data1["txRate"] = txRate;
 					
 					var data2:Object = new Object();
 					if(rxRate == -1)
@@ -369,6 +376,8 @@ package com.adobe.flex.extras.controls.springgraph
 						else if(rxPercent >100)
 							data2 = {settings: {alpha: 0.9, color: /*red*/0xff0000, thickness: 4}};
 					}
+					data2["rxRate"] = rxRate;
+					data2["txRate"] = txRate;
 					
 					this.linkDoubleColor(fromItem, toItem, data1, data2);
 				}
@@ -612,6 +621,8 @@ package com.adobe.flex.extras.controls.springgraph
 						else if(txPercent >100)
 							data1 = {settings: {alpha: 0.9, color: /*red*/0xff0000, thickness: 4}};
 					}
+					data1["rxRate"] = rxRate;
+					data1["txRate"] = txRate;
 					
 					var data2:Object = new Object();
 					if(rxRate == -1)
@@ -629,6 +640,8 @@ package com.adobe.flex.extras.controls.springgraph
 						else if(rxPercent >100)
 							data2 = {settings: {alpha: 0.9, color: /*red*/0xff0000, thickness: 4}};
 					}
+					data2["rxRate"] = rxRate;
+					data2["txRate"] = txRate;
 					
 					this.linkDoubleColor(fromItem, toItem, data1, data2);	
 				}
@@ -680,6 +693,8 @@ package com.adobe.flex.extras.controls.springgraph
 						else if(txPercent >100)
 							data1 = {settings: {alpha: 0.9, color: /*red*/0xff0000, thickness: 4}};
 					}
+					data1["rxRate"] = rxRate;
+					data1["txRate"] = txRate;
 					
 					var data2:Object = new Object();
 					if(rxRate == -1)
@@ -697,6 +712,8 @@ package com.adobe.flex.extras.controls.springgraph
 						else if(rxPercent >100)
 							data2 = {settings: {alpha: 0.9, color: /*red*/0xff0000, thickness: 4}};
 					}
+					data2["rxRate"] = rxRate;
+					data2["txRate"] = txRate;
 					
 					this.linkDoubleColor(fromItem, toItem, data1, data2);
 				}
@@ -776,6 +793,8 @@ package com.adobe.flex.extras.controls.springgraph
 						else if(txPercent >100)
 							data1 = {settings: {alpha: 0.9, color: /*red*/0xff0000, thickness: 4}};
 					}
+					data1["rxRate"] = rxRate;
+					data1["txRate"] = txRate;
 					
 					var data2:Object = new Object();
 					if(rxRate == -1)
@@ -793,6 +812,8 @@ package com.adobe.flex.extras.controls.springgraph
 						else if(rxPercent >100)
 							data2 = {settings: {alpha: 0.9, color: /*red*/0xff0000, thickness: 4}};
 					}
+					data2["rxRate"] = rxRate;
+					data2["txRate"] = txRate;
 					
 					this.linkDoubleColor(fromItem, toItem, data1, data2);	
 				}

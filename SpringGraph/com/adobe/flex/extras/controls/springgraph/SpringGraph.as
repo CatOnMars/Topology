@@ -293,28 +293,29 @@ package com.adobe.flex.extras.controls.springgraph {
 				
 				if(distance < 10)
 				{
-					var careNode:GraphNode;
-					if(fromNode.item.data.@nodeType=="Cloud")
-						careNode = toNode;
-					else if(toNode.item.data.@nodeType=="Cloud")
-						careNode = fromNode;
+					var linkData: Object = _graph.getLinkData(fromNode.item, toNode.item);
+					var rxRate: Number;
+					var txRate: Number;
+					if(linkData.hasOwnProperty("rxRate"))
+						rxRate = linkData.rxRate;
 					else
-					{
-						if(String(fromNode.item.data.@id).length < String(toNode.item.data.@id).length)
-							careNode = toNode;
-						else
-							careNode = fromNode;
-					}
+						rxRate = -1;
+					
+					if(linkData.hasOwnProperty("txRate"))
+						txRate = linkData.txRate;
+					else
+						txRate = -1;
+					
 		
 					dataXMLList = 
 						<>
 						<fv>
 							<f>TX Rate</f>
-							<v>{careNode.item.rxRate}</v>
+							<v>{rxRate}</v>
 						</fv>
 						<fv>
 							<f>RX Rate</f>
-							<v>{careNode.item.txRate}</v>
+							<v>{txRate}</v>
 						</fv>
 						</>
 					
@@ -340,7 +341,7 @@ package com.adobe.flex.extras.controls.springgraph {
 				
 					
 					dataGridShown = true;
-					edgeFromNode = careNode;
+					edgeFromNode = toNode;
 					
 					
 					break;
