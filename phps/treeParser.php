@@ -62,8 +62,8 @@ while(!feof($treeFp))
 			if(count($strLineArray2) == 5)
 			{
 				//-------modified--------------------------------------//
-				$newEdge.=" rxRate=\"".(string)(((float)$strLineArray2[4])/125)."\"";
-				$newEdge.=" txRate=\"".(string)(((float)$strLineArray2[3])/125)."\"";
+				$newEdge.=" rxRate=\"".(string)(((float)$strLineArray2[4]))."\"";
+				$newEdge.=" txRate=\"".(string)(((float)$strLineArray2[3]))."\"";
 					
 			}
 			else

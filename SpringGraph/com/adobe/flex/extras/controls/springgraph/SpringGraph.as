@@ -296,6 +296,8 @@ package com.adobe.flex.extras.controls.springgraph {
 					var linkData: Object = _graph.getLinkData(fromNode.item, toNode.item);
 					var rxRate: Number;
 					var txRate: Number;
+					var rxRateStr: String;
+					var txRateStr: String;
 					if(linkData.hasOwnProperty("rxRate"))
 						rxRate = linkData.rxRate;
 					else
@@ -306,16 +308,36 @@ package com.adobe.flex.extras.controls.springgraph {
 					else
 						txRate = -1;
 					
-		
+					if(rxRate == -1 || txRate == -1) //do not display or pop out a datagrid with -1 rate
+						break;
+					
+					if(rxRate < 10000)
+						rxRateStr = rxRate + " bits";
+					else if(rxRate < 10000000)
+						rxRateStr = rxRate/1000 + " Kbits";
+					else if(rxRate < 10000000000)
+						rxRateStr = rxRate/1000000 + " Mbits";
+					else
+						rxRateStr = rxRate/1000000000 + " Gbits";
+					
+					if(txRate < 10000)
+						txRateStr = txRate + " bits";
+					else if(rxRate < 10000000)
+						txRateStr = txRate/1000 + " Kbits";
+					else if(rxRate < 10000000000)
+						txRateStr = txRate/1000000 + " Mbits";
+					else
+						txRateStr = txRate/1000000000 + " Gbits";
+					
 					dataXMLList = 
 						<>
 						<fv>
 							<f>TX Rate</f>
-							<v>{rxRate}</v>
+							<v>{rxRateStr}</v>
 						</fv>
 						<fv>
 							<f>RX Rate</f>
-							<v>{txRate}</v>
+							<v>{txRateStr}</v>
 						</fv>
 						</>
 					
