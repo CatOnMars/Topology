@@ -1177,6 +1177,15 @@ package com.adobe.flex.extras.controls.springgraph {
 				devXML.@DevIconUrlIdx = "-1";
 				devXML.@StatusIconUrlIdx = "-1";
 				devXML.@attackUrlIdx = "-1";
+				
+				if("Edge" == devXML.@type)
+				{
+					if(String(devXML.@EdgeUrl).length != 0)
+					{
+						this.edgeUrlFmt = devXML.@EdgeUrl; 
+					}
+				}
+				
 				if(String(devXML.@DevIconUrl).length != 0)
 				{
 					urlString = devXML.@DevIconUrl;
@@ -1458,7 +1467,7 @@ package com.adobe.flex.extras.controls.springgraph {
 		private function loadRate(ev:Event):void
 		{
 			var resultStr:String = loaderTreeParser.data;
-			
+
 			if(resultStr.substr(0,8) == "Complete")
 			{
 				urTreeXML.method = URLRequestMethod.GET;
@@ -1468,21 +1477,51 @@ package com.adobe.flex.extras.controls.springgraph {
 				ulTreeXML = new URLLoader();
 				ulTreeXML.dataFormat = URLLoaderDataFormat.BINARY;
 				ulTreeXML.load(urTreeXML);
-				ulTreeXML.addEventListener(Event.COMPLETE, updateRate);
+				ulTreeXML.addEventListener(Event.COMPLETE, refreshLine);
 			}
 		
 			loaderTreeParser.close();
 		}
 		
+		public function refreshLine(ev:Event):void
+		{
+			var textTmp:String = ulTreeXML.data.readMultiByte(ulTreeXML.data.length, lang);
+			treeXml =  new XML(textTmp);
+			ulTreeXML.close();
+			urTreeParser.url =  dfltPHPDIR + "lineParser.php";
+			urTreeParser.method = URLRequestMethod.GET;
+			urTreeParser.requestHeaders.push(header);
+			urTreeParser.data = new URLVariables("linepath="+dfltLinePath+"&mrtgpath="+dfltMrtgPathPHPView+"&output=line"+roamerIdx+".xml"+"&encoding="+dfltEncoding+"&time="+Number(new Date().getTime()));
+			loaderTreeParser = new URLLoader();
+			loaderTreeParser.load(urTreeParser);
+			loaderTreeParser.addEventListener(Event.COMPLETE, loadLine);
+		}	
+		
+		private function loadLine(ev:Event):void
+		{
+			var resultStr:String = loaderTreeParser.data;
+			if(resultStr.substr(0,8) == "Complete")
+			{
+				urTreeXML.url = dfltPHPDIR + "line"+roamerIdx+".xml"
+				urTreeXML.method = URLRequestMethod.GET;
+				urTreeXML.requestHeaders.push(header);
+				urTreeXML.data = new URLVariables("time="+Number(new Date().getTime()));
+				ulTreeXML = new URLLoader();
+				ulTreeXML.dataFormat = URLLoaderDataFormat.BINARY;
+				ulTreeXML.load(urTreeXML);
+				ulTreeXML.addEventListener(Event.COMPLETE, updateRate);
+			}
+			loaderTreeParser.close();
+		}
 		
 		private function updateRate(ev:Event):void
 		{
 			var textTmp:String = ulTreeXML.data.readMultiByte(ulTreeXML.data.length, lang);
-			treeXml =  new XML(textTmp);
+ 			lineXml =  new XML(textTmp);
 			
 			fullGraphWithVlan.updateFromXML(treeXml, lineXml, null, rmVlan, rmGroup, _currentItem.id);
 			this.dataProvider.updateFromXML(treeXml, lineXml, null, rmVlan, rmGroup, _currentItem.id);
-			
+
 			var itemTmp : Item;
 		
 			for each (var location: XML in locationXml.descendants("location")) {
@@ -1497,6 +1536,7 @@ package com.adobe.flex.extras.controls.springgraph {
 			//doSetDataProvider(fullGraphWithVlan);
 			
 			this.reDrawCurrent();
+			this.drawEdges();
 			/*
 			var nodes: Array = _dataProvider.getAllNodes();
 			

@@ -238,6 +238,47 @@ package com.adobe.flex.extras.controls.springgraph {
 		public var dataGridShown:Boolean = false;
 		public var edgeFromNode:GraphNode = null;
 		
+		protected var edgeUrlFmt:String;
+		
+		private function transEdgeUrlString(item:Item, url:String, idxStr:String, keyEmpty:Object):String
+		{
+			var urlString:String = new String(url);
+
+			keyEmpty[0] = false;
+			
+			while(urlString.search("(mrtgPath)") != -1)
+				urlString = urlString.replace("(mrtgPath)", mrtgDirPath);
+	
+			while(urlString.search("(ip)") != -1)
+			{
+				urlString = urlString.replace("(ip)", item.data.@ip);
+				if(String(item.data.@ip).length == 0)
+					keyEmpty[0] = true;
+			}
+
+			while(urlString.search("(idx)") != -1)
+			{
+				urlString = urlString.replace("(idx)", idxStr);
+				if(String(idxStr).length == 0)
+					keyEmpty[0] = true;
+			}
+
+			while(urlString.search("(id)") != -1)
+			{
+				urlString = urlString.replace("(id)", item.data.@id);
+				if(String(item.data.@id).length == 0)
+					keyEmpty[0] = true;
+			}
+
+			while(urlString.search("(nodeType)") != -1)
+				urlString = urlString.replace("(nodeType)", item.data.@nodeType);
+
+			while(urlString.search("(name)") != -1)
+				urlString = urlString.replace("(name)", item.data.@name);
+			
+			return urlString;
+		}
+		
 		public function edgeOverEvent(event: MouseEvent):void  {
 			var x: int = event.localX;
 			var y: int = event.localY;
@@ -257,6 +298,8 @@ package com.adobe.flex.extras.controls.springgraph {
 				if(calcChild < 0) calcChild = - calcChild;
 				var calcMother: Number = Math.sqrt(a*a + b*b);
 				var distance: Number = calcChild / calcMother;
+				var keyEmpty:Object = new Object();
+				var urlString:String;
 
 				/*check X range*/
 				var checkX_left:int;
@@ -298,6 +341,9 @@ package com.adobe.flex.extras.controls.springgraph {
 					var txRate: Number;
 					var rxRateStr: String;
 					var txRateStr: String;
+					var idxStr:String;
+					var toItem:Item = null;
+					
 					if(linkData.hasOwnProperty("rxRate"))
 						rxRate = linkData.rxRate;
 					else
@@ -311,23 +357,24 @@ package com.adobe.flex.extras.controls.springgraph {
 					if(rxRate == -1 || txRate == -1) //do not display or pop out a datagrid with -1 rate
 						break;
 					
-					if(rxRate < 10000)
-						rxRateStr = rxRate + " bits";
+					if(rxRate < 10)
+						rxRateStr = int(rxRate*1000) + " bits";
+					else if(rxRate < 10000)
+						rxRateStr = int(rxRate) + " Kbits";
 					else if(rxRate < 10000000)
-						rxRateStr = rxRate/1000 + " Kbits";
+						rxRateStr = int(rxRate/1000) + " Mbits";
 					else if(rxRate < 10000000000)
-						rxRateStr = rxRate/1000000 + " Mbits";
-					else
-						rxRateStr = rxRate/1000000000 + " Gbits";
+						rxRateStr = int(rxRate/1000000) + " Gbits";
+										
+					if(txRate < 10)
+						txRateStr = int(txRate*1000) + " bits";
+					else if(txRate < 10000)
+						txRateStr = int(txRate) + " Kbits";
+					else if(rxRate < 10000000)
+						txRateStr = int(txRate/1000) + " Mbits";
+					else if(rxRate < 10000000000)
+						txRateStr = int(txRate/1000000) + " Gbits";
 					
-					if(txRate < 10000)
-						txRateStr = txRate + " bits";
-					else if(rxRate < 10000000)
-						txRateStr = txRate/1000 + " Kbits";
-					else if(rxRate < 10000000000)
-						txRateStr = txRate/1000000 + " Mbits";
-					else
-						txRateStr = txRate/1000000000 + " Gbits";
 					
 					dataXMLList = 
 						<>
@@ -365,6 +412,27 @@ package com.adobe.flex.extras.controls.springgraph {
 					dataGridShown = true;
 					edgeFromNode = toNode;
 					
+					if(linkData.hasOwnProperty("idx"))
+						idxStr = linkData.idx;
+					else
+						idxStr = "";
+					
+					if(linkData.hasOwnProperty("toNodeID"))
+					{
+						if(fromNode.item.id == linkData.toNodeID)
+							toItem = fromNode.item;
+						
+						if(toNode.item.id == linkData.toNodeID)
+							toItem = toNode.item;
+					}
+					
+					((myItemView)(edgeFromNode.view)).edgeUrl = "none";
+					
+					if(toItem != null)
+					{
+						urlString = transEdgeUrlString(toItem, edgeUrlFmt, idxStr, keyEmpty);
+						((myItemView)(edgeFromNode.view)).edgeUrl = urlString;
+					}
 					
 					break;
 				}
@@ -390,6 +458,7 @@ package com.adobe.flex.extras.controls.springgraph {
 				// it's a double-click
 				if(edgeFromNode != null) {
 					//trace("double click to " + node.item.data.@idx + " " + node.item.data.@ip);
+
 					if(((myItemView)(edgeFromNode.view)).edgeUrl != "none")
 						navigateToURL(new URLRequest(((myItemView)(edgeFromNode.view)).edgeUrl), "_blank");
 				}
@@ -1000,7 +1069,7 @@ package com.adobe.flex.extras.controls.springgraph {
 
 	    /** @private */
 
-		private function drawEdges(): void {
+		protected function drawEdges(): void {
 			drawingSurface.graphics.clear();
 			
 			if(_dataProvider != null)

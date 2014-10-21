@@ -284,6 +284,8 @@ package com.adobe.flex.extras.controls.springgraph
 					}
 					data1["rxRate"] = rxRate;
 					data1["txRate"] = txRate;
+					data1["idx"] = edge.attribute(idxName);
+					data1["toNodeID"] = toItem.id;
 					
 					var data2:Object = new Object();
 					if(rxRate == -1)
@@ -303,7 +305,9 @@ package com.adobe.flex.extras.controls.springgraph
 					}
 					data2["rxRate"] = rxRate;
 					data2["txRate"] = txRate;
-					
+					data2["idx"] = edge.attribute(idxName);
+					data2["toNodeID"] = toItem.id;
+									
 					this.linkDoubleColor(fromItem, toItem, data1, data2);	
 				}
 				
@@ -359,6 +363,8 @@ package com.adobe.flex.extras.controls.springgraph
 					}
 					data1["rxRate"] = rxRate;
 					data1["txRate"] = txRate;
+					data1["idx"] = edge.attribute(idxName);
+					data1["toNodeID"] = toItem.id;
 					
 					var data2:Object = new Object();
 					if(rxRate == -1)
@@ -378,7 +384,9 @@ package com.adobe.flex.extras.controls.springgraph
 					}
 					data2["rxRate"] = rxRate;
 					data2["txRate"] = txRate;
-					
+					data2["idx"] = edge.attribute(idxName);
+					data2["toNodeID"] = toItem.id;
+										
 					this.linkDoubleColor(fromItem, toItem, data1, data2);
 				}
 			}

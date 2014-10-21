@@ -203,22 +203,6 @@ package com.adobe.flex.extras.controls.springgraph
 					}
 				}
 				
-				/*set double click url*/
-				itemView.edgeUrl = "none";
-				for each (var devXML: XML in clickEventXML.descendants("doubleClick").descendants("dev")) 
-				{
-					if("Edge" == devXML.@type)
-					{
-						if(String(devXML.@EdgeUrl).length != 0)
-						{
-							urlString = transUrlString(itemView, item, devXML.@EdgeUrl, keyEmpty);
-							if(keyEmpty[0] != true)
-								itemView.edgeUrl = urlString;
-						}
-
-						break;
-					}
-				}
 			}
 			
 			itemView.devPic.contextMenu = myContextMenu;
