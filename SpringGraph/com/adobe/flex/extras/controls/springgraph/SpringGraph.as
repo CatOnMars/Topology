@@ -728,11 +728,13 @@ package com.adobe.flex.extras.controls.springgraph {
 			}
 			else if(dataStrArray[0] == "distance")
 			{
+				doRecordLocation();
 				updateDistance(Number(dataStrArray[1]));
 				distanceLog = dataStrArray[1];
 			}
 			else if(dataStrArray[0] == "node")
 			{
+				doRecordLocation();
 				updateMaxNode(Number(dataStrArray[1]));
 				nodeLog = dataStrArray[1];
 			}
@@ -905,19 +907,39 @@ package com.adobe.flex.extras.controls.springgraph {
 			this.addChild(saveButton);
 		}
 		
-		
-		public function doSaveLocation():void
+		public function doRecordLocation():void
 		{
 			var nodes: Array;
-			var locationLog: String;
-			
+			var nodeItem: Item;
+						
 			if(_dataProvider != null)
 			{
 				nodes = _dataProvider.getAllNodes();
 				
-				locationLog = "";
 				for each (var node: Node in nodes) {
-					locationLog = locationLog + "<location id=\"" + (GraphNode)(node).item.id + "\" x=\"" + (GraphNode)(node).view.x + "\" y=\"" + (GraphNode)(node).view.y + "\"/>";
+					nodeItem = fullGraph.find((GraphNode)(node).item.id);
+					if(nodeItem != null)
+					{
+						nodeItem.X = (GraphNode)(node).view.x;
+						nodeItem.Y = (GraphNode)(node).view.y;
+					}
+				}
+				
+			}
+		}
+		
+		public function doSaveLocation():void
+		{
+			var nodes: Object;
+			var locationLog: String;
+			
+			if(_graph != null)
+			{
+				nodes = fullGraph.nodes;
+				
+				locationLog = "";
+				for each (var node: Item in nodes) {
+					locationLog = locationLog + "<location id=\"" + node.id + "\" x=\"" + node.X + "\" y=\"" + node.Y + "\"/>";
 				}
 				
 				urSave.url = dfltPHPDIR + "locationSave.php";	
@@ -931,6 +953,7 @@ package com.adobe.flex.extras.controls.springgraph {
 		
 		private function doSave(event:Event):void
 		{
+			doRecordLocation();
 			doSaveLocation();
 			
 			/*call roamer function to save config*/
@@ -2437,7 +2460,7 @@ package com.adobe.flex.extras.controls.springgraph {
 		protected var drawingSurface: UIComponent; // we can't use our own background for drawing, because it doesn't scroll
 
 		/** @private */
-
+		protected var fullGraph: Graph;
 		protected var _graph: Graph;
 
 		/** @private */

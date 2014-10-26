@@ -1728,7 +1728,6 @@ package com.adobe.flex.extras.controls.springgraph {
 		private var _currentItem: Item;
 		private var _skipItem: Item = null;
 		private var _itemLimit: int = 50;
-		private var fullGraph: Graph;
 		public var fullGraphWithVlan: Graph;
 		//public var fullGraphRmVlan: Graph;
 		private var _maxDistanceFromCurrent: int;		
