@@ -100,7 +100,13 @@ package com.adobe.flex.extras.controls.springgraph
 			
 			if(showRate == false)
 			{
-				g.lineStyle(1,0x111111,0.9);
+				alpha = 0.9;
+				if((linkData != null) && (linkData.hasOwnProperty("settings"))) {
+					var settings: Object = linkData.settings;
+					alpha = settings.alpha;
+				}
+								
+				g.lineStyle(1,0x111111,alpha);
 				g.beginFill(0);
 				g.moveTo(fromX, fromY);
 				g.lineTo(toX, toY);
@@ -161,6 +167,16 @@ package com.adobe.flex.extras.controls.springgraph
 					alpha = settings.alpha;
 					thickness = rateThickness;
 					color = settings.color;
+					
+					if(color == 0x123456)
+					{
+						g.lineStyle(1,0x111111,0.9);
+						g.beginFill(0);
+						g.moveTo(fromX, fromY);
+						g.lineTo(toX, toY);
+						g.endFill();
+						return true;
+					}
 				}
 				
 				g.lineStyle(thickness,color,alpha);

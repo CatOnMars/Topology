@@ -267,7 +267,9 @@ package com.adobe.flex.extras.controls.springgraph
 					
 					var data1:Object = new Object();
 					
-					if(txRate == -1)
+					if(edge.attribute(idxName) == "-1")
+						data1 = {settings: {alpha: 0, color: 0x0, thickness: 4}}; //invisible line
+					else if(txRate == -1)
 						data1 = {settings: {alpha: 0.9, color: /*specialCode*/0x123456, thickness: 4}};
 					else
 					{
@@ -288,7 +290,11 @@ package com.adobe.flex.extras.controls.springgraph
 					data1["toNodeID"] = toItem.id;
 					
 					var data2:Object = new Object();
-					if(rxRate == -1)
+					if(edge.attribute(idxName) == "-1")
+					{
+						data2 = {settings: {alpha: 0, color: 0x0, thickness: 4}}; //invisible line
+					}
+					else if(rxRate == -1)
 						data2 = {settings: {alpha: 0.9, color: /*specialCode*/0x123456, thickness: 4}};
 					else
 					{
@@ -346,7 +352,11 @@ package com.adobe.flex.extras.controls.springgraph
 					
 					var data1:Object = new Object();
 					
-					if(txRate == -1)
+					if(edge.attribute(idxName) == "-1")
+					{
+						data1 = {settings: {alpha: 0, color: 0x0, thickness: 4}}; //invisible line
+					}
+					else if(txRate == -1)
 						data1 = {settings: {alpha: 0.9, color: /*specialCode*/0x123456, thickness: 4}};
 					else
 					{
@@ -367,7 +377,11 @@ package com.adobe.flex.extras.controls.springgraph
 					data1["toNodeID"] = toItem.id;
 					
 					var data2:Object = new Object();
-					if(rxRate == -1)
+					if(edge.attribute(idxName) == "-1")
+					{
+						data2 = {settings: {alpha: 0, color:0x0, thickness: 4}}; //invisible line
+					}
+					else if(rxRate == -1)
 						data2 = {settings: {alpha: 0.9, color: /*specialCode*/0x123456, thickness: 4}};
 					else
 					{
