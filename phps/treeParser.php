@@ -9,7 +9,9 @@ fwrite($treeXMLFp, "<graph>");
 
 while(!feof($treeFp))
 {
-	$strLineArray = fgetcsv($treeFp, 512, ";");
+	$strLine = fgets($treeFp, 512);
+	//$strLineArray = fgetcsv($treeFp, 512, ";");
+	$strLineArray = explode(";", $strLine);
 	if(count($strLineArray) == 4 || count($strLineArray) == 5)
 	{
 		$newNode = "<Node";
