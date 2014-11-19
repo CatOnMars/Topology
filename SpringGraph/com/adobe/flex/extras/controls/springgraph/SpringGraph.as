@@ -363,16 +363,16 @@ package com.adobe.flex.extras.controls.springgraph {
 						rxRateStr = int(rxRate) + " Kbits";
 					else if(rxRate < 10000000)
 						rxRateStr = int(rxRate/1000) + " Mbits";
-					else if(rxRate < 10000000000)
+					else
 						rxRateStr = int(rxRate/1000000) + " Gbits";
 										
 					if(txRate < 10)
 						txRateStr = int(txRate*1000) + " bits";
 					else if(txRate < 10000)
 						txRateStr = int(txRate) + " Kbits";
-					else if(rxRate < 10000000)
+					else if(txRate < 10000000)
 						txRateStr = int(txRate/1000) + " Mbits";
-					else if(rxRate < 10000000000)
+					else
 						txRateStr = int(txRate/1000000) + " Gbits";
 					
 					
