@@ -334,7 +334,7 @@ package com.adobe.flex.extras.controls.springgraph {
 					if(y < checkY_down || y > checkY_up) /* Y no resonable */
 						continue;
 				
-				if(distance < 10)
+				if(distance < 20)
 				{
 					var linkData: Object = _graph.getLinkData(fromNode.item, toNode.item);
 					var rxRate: Number;
