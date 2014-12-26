@@ -259,10 +259,10 @@ package com.adobe.flex.extras.controls.springgraph
 					
 					bandwidth = edge.attribute(bwName);
 					
-					if(bandwidth!=0)
+					if(bandwidth!=0) 
 					{
-						rxPercent = (rxRate/100/bandwidth) * 100;
-						txPercent = (txRate/100/bandwidth) * 100;
+						rxPercent = (rxRate/bandwidth) * 100; /*unit of bandwidth is 0.1 K bps*/
+						txPercent = (txRate/bandwidth) * 100;
 					}
 					
 					var data1:Object = new Object();
@@ -346,8 +346,8 @@ package com.adobe.flex.extras.controls.springgraph
 					
 					if(bandwidth!=0)
 					{
-						rxPercent = (rxRate/100/bandwidth) * 100;
-						txPercent = (txRate/100/bandwidth) * 100;
+						rxPercent = (rxRate/bandwidth) * 100; /*unit of bandwidth is 1 K bps*/
+						txPercent = (txRate/bandwidth) * 100;
 					}
 					
 					var data1:Object = new Object();

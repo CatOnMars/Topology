@@ -620,8 +620,21 @@ package com.adobe.flex.extras.controls.springgraph {
 			else
 				this.backGroundPic.enabled = false;
 			
-			wheelScale = configXml.wheelScale.@value;
-			wheelLocation = configXml.wheelLocation.@value;
+			if(configXml.wheelScale.@value != null)
+			{
+				wheelScale = configXml.wheelScale.@value;
+				wheelScaleLog = configXml.wheelScale.@value;
+			}
+			if(configXml.wheelLocation.@value != null)
+			{
+				wheelLocation = configXml.wheelLocation.@value;
+				wheelLocationLog = configXml.wheelLocation.@value;
+			}
+			
+			if((dfltBackGroundPic != null && dfltBackGroundPic != "none") && dfltShowBG == true)
+			{
+				wheelLocation = 0;
+			}
 			
 			ulConfigXML.close();
 			loadRightClickMenu();

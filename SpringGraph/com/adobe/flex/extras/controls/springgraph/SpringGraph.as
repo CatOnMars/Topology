@@ -284,6 +284,12 @@ package com.adobe.flex.extras.controls.springgraph {
 			var y: int = event.localY;
 			
 			var edges: Array = _dataProvider.getEdges();
+			var rxRateTmp: Number;
+			var txRateTmp: Number;
+			var minDistance:int = 20;
+			var toNodeTmp: GraphNode;
+			var isFound:Boolean = false;
+			
 			for each (var edge: GraphEdge in edges) {
 				var fromNode: GraphNode = GraphNode(edge.getFrom());
 				var toNode: GraphNode = GraphNode(edge.getTo());
@@ -334,15 +340,11 @@ package com.adobe.flex.extras.controls.springgraph {
 					if(y < checkY_down || y > checkY_up) /* Y no resonable */
 						continue;
 				
-				if(distance < 20)
+				if(distance < minDistance)
 				{
 					var linkData: Object = _graph.getLinkData(fromNode.item, toNode.item);
 					var rxRate: Number;
 					var txRate: Number;
-					var rxRateStr: String;
-					var txRateStr: String;
-					var idxStr:String;
-					var toItem:Item = null;
 					
 					if(linkData.hasOwnProperty("rxRate"))
 						rxRate = linkData.rxRate;
@@ -355,67 +357,7 @@ package com.adobe.flex.extras.controls.springgraph {
 						txRate = -1;
 					
 					if(rxRate == -1 || txRate == -1) //do not display or pop out a datagrid with -1 rate
-						break;
-					
-					if(rxRate < 10)
-						rxRateStr = int(rxRate*1000) + " bits";
-					else if(rxRate < 10000)
-						rxRateStr = int(rxRate) + " Kbits";
-					else if(rxRate < 10000000)
-						rxRateStr = int(rxRate/1000) + " Mbits";
-					else
-						rxRateStr = int(rxRate/1000000) + " Gbits";
-										
-					if(txRate < 10)
-						txRateStr = int(txRate*1000) + " bits";
-					else if(txRate < 10000)
-						txRateStr = int(txRate) + " Kbits";
-					else if(txRate < 10000000)
-						txRateStr = int(txRate/1000) + " Mbits";
-					else
-						txRateStr = int(txRate/1000000) + " Gbits";
-					
-					
-					dataXMLList = 
-						<>
-						<fv>
-							<f>TX Rate</f>
-							<v>{rxRateStr}</v>
-						</fv>
-						<fv>
-							<f>RX Rate</f>
-							<v>{txRateStr}</v>
-						</fv>
-						</>
-					
-					dataGrid.rowCount = dataXMLList.length();
-					var cols:Array = new Array();
-					var gridColumn:DataGridColumn = new DataGridColumn();
-					gridColumn.dataField = "f";
-					gridColumn.headerText = "Field";
-					cols.push(gridColumn);
-					var gridColumn2:DataGridColumn = new DataGridColumn();
-					gridColumn2.dataField = "v";
-					gridColumn2.headerText = "Value";
-					cols.push(gridColumn2);
-					dataGrid.columns=cols;
-					dataGrid.dataProvider = dataXMLList;
-					if((dataGrid.x = event.localX - dataGrid.width - 50) < 0)
-						dataGrid.x = event.localX + 50;
-					
-					if((dataGrid.y = event.localY - dataGrid.height) < 0)
-						dataGrid.y = event.localY + dataGrid.height;
-					
-					this.addChild(dataGrid);
-				
-					
-					dataGridShown = true;
-					edgeFromNode = toNode;
-					
-					if(linkData.hasOwnProperty("idx"))
-						idxStr = linkData.idx;
-					else
-						idxStr = "";
+						continue;
 					
 					if(linkData.hasOwnProperty("toNodeID"))
 					{
@@ -426,19 +368,93 @@ package com.adobe.flex.extras.controls.springgraph {
 							toItem = toNode.item;
 					}
 					
-					((myItemView)(edgeFromNode.view)).edgeUrl = "none";
-					
-					if(toItem != null)
-					{
-						urlString = transEdgeUrlString(toItem, edgeUrlFmt, idxStr, keyEmpty);
-						((myItemView)(edgeFromNode.view)).edgeUrl = urlString;
-					}
-					
-					break;
+					rxRateTmp = rxRate;
+					txRateTmp = txRate;
+					toNodeTmp = toNode;
+					minDistance = distance;
+					isFound = true;
 				}
 			}
 			
-		
+			if(isFound == true)
+			{
+				var rxRateStr: String;
+				var txRateStr: String;
+				var idxStr:String;
+				var toItem:Item = null;
+				
+			
+				if(rxRateTmp < 10)
+					rxRateStr = int(rxRateTmp*1000) + " bits";
+				else if(rxRate < 10000)
+					rxRateStr = int(rxRateTmp) + " Kbits";
+				else if(rxRateTmp < 10000000)
+					rxRateStr = int(rxRateTmp/1000) + " Mbits";
+				else
+					rxRateStr = int(rxRateTmp/1000000) + " Gbits";
+				
+				if(txRateTmp < 10)
+					txRateStr = int(txRateTmp*1000) + " bits";
+				else if(txRateTmp < 10000)
+					txRateStr = int(txRateTmp) + " Kbits";
+				else if(txRateTmp < 10000000)
+					txRateStr = int(txRateTmp/1000) + " Mbits";
+				else
+					txRateStr = int(txRateTmp/1000000) + " Gbits";
+				
+				
+				dataXMLList = 
+					<>
+					<fv>
+						<f>TX Rate</f>
+						<v>{rxRateStr}</v>
+					</fv>
+					<fv>
+						<f>RX Rate</f>
+						<v>{txRateStr}</v>
+					</fv>
+					</>
+				
+				dataGrid.rowCount = dataXMLList.length();
+				var cols:Array = new Array();
+				var gridColumn:DataGridColumn = new DataGridColumn();
+				gridColumn.dataField = "f";
+				gridColumn.headerText = "Field";
+				cols.push(gridColumn);
+				var gridColumn2:DataGridColumn = new DataGridColumn();
+				gridColumn2.dataField = "v";
+				gridColumn2.headerText = "Value";
+				cols.push(gridColumn2);
+				dataGrid.columns=cols;
+				dataGrid.dataProvider = dataXMLList;
+				if((dataGrid.x = event.localX - dataGrid.width - 50) < 0)
+					dataGrid.x = event.localX + 50;
+				
+				if((dataGrid.y = event.localY - dataGrid.height) < 0)
+					dataGrid.y = event.localY + dataGrid.height;
+				
+				this.addChild(dataGrid);
+				
+				
+				dataGridShown = true;
+				edgeFromNode = toNodeTmp;
+				
+				if(linkData.hasOwnProperty("idx"))
+					idxStr = linkData.idx;
+				else
+					idxStr = "";
+				
+				
+				
+				((myItemView)(edgeFromNode.view)).edgeUrl = "none";
+				
+				if(toItem != null)
+				{
+					urlString = transEdgeUrlString(toItem, edgeUrlFmt, idxStr, keyEmpty);
+					((myItemView)(edgeFromNode.view)).edgeUrl = urlString;
+				}
+				
+			}
 		}
 		
 		public function edgeOutEvent(event: MouseEvent):void  {
@@ -470,6 +486,8 @@ package com.adobe.flex.extras.controls.springgraph {
 		
 		public var wheelScale:Number = 80;
 		public var wheelLocation:Number = 80;
+		public var wheelScaleLog:Number = 80;
+		public var wheelLocationLog:Number = 80;
 		
 		private function wheelHandler(event: MouseEvent):void  {
 			var scaleDelta:Number;
@@ -629,12 +647,18 @@ package com.adobe.flex.extras.controls.springgraph {
 				if(event.item.@toggled == "true")
 				{
 					if(itemView!=null)
-					itemView.visible = true;
+					{
+						itemView.visible = true;
+						wheelLocation = 0;
+					}
 				}
 				else
 				{
 					if(itemView!=null)
+					{
 						itemView.visible = false;
+						wheelLocation = wheelLocationLog;
+					}
 				}
 				
 				
