@@ -108,7 +108,7 @@ package com.adobe.flex.extras.controls.springgraph
 		
 		public var idx:int = 0;
 		
-		public function updateFromXML(xml: XML, lineXml: XML, strings: Array, isHideVlan: Boolean, isHideGroup: Boolean, centralItemID: String): void {
+		public function updateFromXML(xml: XML, lineXml: XML, strings: Array, isHideVlan: Boolean, isHideGroup: Boolean, isHideLine: Boolean, centralItemID: String): void {
 			
 			var nodeName: String = "Node";
 			var nodeTypeName: String = "nodeType";
@@ -209,6 +209,12 @@ package com.adobe.flex.extras.controls.springgraph
 						if(toItem.id != centralItemID)
 						{
 							toItem.parentItem = fromItem;
+							
+							while(toItem.parentItem != null && (toItem.parentItem.data.@nodeType == "VLAN" || (toItem.parentItem.data.@nodeType == "Group" && isHideGroup == true))) 
+							{
+								toItem.parentItem = toItem.parentItem.parentItem;
+							} 
+							
 							continue;
 						}
 
@@ -218,6 +224,10 @@ package com.adobe.flex.extras.controls.springgraph
 						if(fromItem.id != centralItemID)
 						{
 							fromItem = fromItem.parentItem;
+							while(fromItem.parentItem != null && (fromItem.parentItem.data.@nodeType == "VLAN" || (fromItem.parentItem.data.@nodeType == "Group" && isHideGroup == true))) 
+							{
+								fromItem.parentItem = fromItem.parentItem.parentItem;
+							} 
 						}
 
 					}
@@ -229,6 +239,11 @@ package com.adobe.flex.extras.controls.springgraph
 						if(toItem.id != centralItemID)
 						{
 							toItem.parentItem = fromItem;
+							while(toItem.parentItem != null && (toItem.parentItem.data.@nodeType == "Group" || (toItem.parentItem.data.@nodeType == "VLAN" && isHideVlan == true))) 
+							{
+								toItem.parentItem = toItem.parentItem.parentItem;
+							} 
+							
 							continue;
 						}
 					}
@@ -237,6 +252,12 @@ package com.adobe.flex.extras.controls.springgraph
 						if(fromItem.id != centralItemID)
 						{
 							fromItem = fromItem.parentItem;
+							
+							while(fromItem.parentItem != null && (fromItem.parentItem.data.@nodeType == "Group" || (fromItem.parentItem.data.@nodeType == "VLAN" && isHideVlan == true))) 
+							{
+								fromItem.parentItem = fromItem.parentItem.parentItem;
+							} 	
+							
 						}
 					}
 				}
@@ -267,7 +288,7 @@ package com.adobe.flex.extras.controls.springgraph
 					
 					var data1:Object = new Object();
 					
-					if(edge.attribute(idxName) == "-1")
+					if(edge.attribute(idxName) == "-1" || isHideLine == true)
 						data1 = {settings: {alpha: 0, color: 0x0, thickness: 4}}; //invisible line
 					else if(txRate == -1)
 						data1 = {settings: {alpha: 0.9, color: /*specialCode*/0x123456, thickness: 4}};
@@ -290,7 +311,7 @@ package com.adobe.flex.extras.controls.springgraph
 					data1["toNodeID"] = toItem.id;
 					
 					var data2:Object = new Object();
-					if(edge.attribute(idxName) == "-1")
+					if(edge.attribute(idxName) == "-1" || isHideLine == true)
 					{
 						data2 = {settings: {alpha: 0, color: 0x0, thickness: 4}}; //invisible line
 					}
@@ -352,7 +373,7 @@ package com.adobe.flex.extras.controls.springgraph
 					
 					var data1:Object = new Object();
 					
-					if(edge.attribute(idxName) == "-1")
+					if(edge.attribute(idxName) == "-1" || isHideLine == true)
 					{
 						data1 = {settings: {alpha: 0, color: 0x0, thickness: 4}}; //invisible line
 					}
@@ -377,7 +398,7 @@ package com.adobe.flex.extras.controls.springgraph
 					data1["toNodeID"] = toItem.id;
 					
 					var data2:Object = new Object();
-					if(edge.attribute(idxName) == "-1")
+					if(edge.attribute(idxName) == "-1" || isHideLine == true)
 					{
 						data2 = {settings: {alpha: 0, color:0x0, thickness: 4}}; //invisible line
 					}

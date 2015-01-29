@@ -608,6 +608,7 @@ package com.adobe.flex.extras.controls.springgraph {
 		protected var txtLog:String = "ip";
 		protected var hideVlanLog:String = "false";
 		protected var hideGroupLog:String = "false";
+		protected var hideLineLog:String = "false";
 		protected var manualLog:String = "false";
 		protected var alphaLog:String = "1";
 		protected var fontSizeLog:String = "1";
@@ -795,6 +796,18 @@ package com.adobe.flex.extras.controls.springgraph {
 				}
 				hideGroupLog = event.item.@toggled;
 			}
+			else if(dataStrArray[0] == "hideLine")
+			{
+				if(event.item.@toggled == "true")
+				{
+					setHideLine(true);
+				}
+				else
+				{
+					setHideLine(false);
+				}
+				hideLineLog = event.item.@toggled;
+			}
 			
 			
 		}
@@ -807,6 +820,12 @@ package com.adobe.flex.extras.controls.springgraph {
 		
 		/*overwrited by roamer*/
 		protected function setHideGroup(hideGroup:Boolean):void
+		{
+			
+		}
+		
+		/*overwrited by roamer*/
+		protected function setHideLine(hideLine:Boolean):void
 		{
 			
 		}
@@ -853,10 +872,12 @@ package com.adobe.flex.extras.controls.springgraph {
 		{
 			if(_viewFactory != null)
 			{
+				
 				if(_dataProvider != null)
 					_dataProvider.reDrawStatus();
 				
 				rebuild();
+				
 			}
 			
 			if(_edgeRenderer != null)
@@ -1022,7 +1043,7 @@ package com.adobe.flex.extras.controls.springgraph {
 			fontSizeSlider.x = 358+70;
 			fontSizeSlider.y = 0;
 			fontSizeSlider.minimum = 6;
-			fontSizeSlider.maximum = 50;
+			fontSizeSlider.maximum = 127;
 			fontSizeSlider.addEventListener(SliderEvent.CHANGE, changeFontSlider);
 			fontSizeSlider.addEventListener("mouseDown", sliderMouseDown);
 			fontSizeSlider.width = 60;

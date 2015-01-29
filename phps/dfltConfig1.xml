@@ -1,22 +1,22 @@
 <topologyConfig>
-  <dfltCenterID value="001001"/>
+  <dfltCenterID value="001"/>
   <showBG value="false"/>
   <showStatus value="true"/>
   <showRate value="true"/>
   <showAttack value="true"/>
-  <identify value="name"/>
+  <identify value="ip"/>
   <distance value="7"/>
-  <maxNode value="1000"/>
+  <maxNode value="300"/>
   <manual value="true"/>
   <autoFit value="true"/>
   <alpha value="0.6136363636363636"/>
-  <fontSize value="27"/>
+  <fontSize value="17.275"/>
   <fontColor value="0x000000"/>
   <rateLine value="3.879545454545455"/>
   <window value="1"/>
   <refreshInterval value="200"/>
   <repulsion value="1.0"/>
-  <scale value="0.4999999999999998"/>
+  <scale value="0.5749999999999997"/>
   <numNodeFontSize value="30"/>
   <numNodeFontColor value="0x0000ff"/>
   <backGroundColor value="0xFFFFFF"/>
@@ -30,19 +30,20 @@
   <mrtgDirPathFlashView value="../mrtgdata/"/>
   <mrtgDirPathPHPView value="./mrtgdata/"/>
   <charEncoding value="big5"/>
-  <hideVlan value="true"/>
+  <hideVlan value="false"/>
   <saveButtonX value="180"/>
   <saveButtonY value="0"/>
   <manualButtonX value="239"/>
   <manualButtonY value="0"/>
   <backGroundPic value="bg.jpg"/>
-  <backGroundPicX value="327"/>
-  <backGroundPicY value="-217"/>
+  <backGroundPicX value="-146"/>
+  <backGroundPicY value="-1077"/>
   <backGroundPicMoveEbl value="1"/>
   <sndMenu Bad="" Alarm="" Victim=""/>
   <atkIsoX value="80"/>
   <atkIsoY value="30"/>
   <hideGroup value="false"/>
-  <wheelScale value="0"/>
+  <wheelScale value="80"/>
   <wheelLocation value="80"/>
+  <hideLine value="false"/>
 </topologyConfig>

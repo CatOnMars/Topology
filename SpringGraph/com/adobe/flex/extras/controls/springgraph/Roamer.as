@@ -361,6 +361,7 @@ package com.adobe.flex.extras.controls.springgraph {
 				
 		public var rmVlan:Boolean = false;
 		public var rmGroup:Boolean = false;
+		public var rmLine:Boolean = false;
 
 		/*to be overrided by roamer*/
 		override protected function updateCurrentItem(itemID:String):void 
@@ -371,7 +372,7 @@ package com.adobe.flex.extras.controls.springgraph {
 
 			if(item != null)
 			{
-				fullGraphWithVlan.updateFromXML(treeXml, lineXml, null, rmVlan, rmGroup, item.id);
+				fullGraphWithVlan.updateFromXML(treeXml, lineXml, null, rmVlan, rmGroup, rmLine, item.id);
 			}
 			/*else
 				_maxDistanceFromCurrent = maxDistanceFromCurrentTmp;*/
@@ -447,6 +448,13 @@ package com.adobe.flex.extras.controls.springgraph {
 			updateCurrentItem(_currentItem.id);
 		}
 		
+		/*to be overrided by roamer*/
+		override protected function setHideLine(hideLine:Boolean):void 
+		{			
+			rmLine = hideLine;
+			updateCurrentItem(_currentItem.id);
+		}
+		
 		private var dfltCenterID:String = "";
 		private var dfltShowBG:Boolean = false;
 		private var dfltShowStatus:Boolean = false;
@@ -478,6 +486,7 @@ package com.adobe.flex.extras.controls.springgraph {
 		private var dfltEncoding:String="big5";
 		private var dfltHideVlan:Boolean=true;
 		private var dfltHideGroup:Boolean=true;
+		private var dfltHideLine:Boolean=true;
 		private var dfltSaveButtonX:int = 180;
 		private var dfltSaveButtonY:int = 0;
 		private var dfltManualButtonX:int = 239;
@@ -585,7 +594,13 @@ package com.adobe.flex.extras.controls.springgraph {
 				dfltHideGroup = true;
 			else
 				dfltHideGroup = false;
-			hideGroupLog = configXml.hideGroup.@value; 
+			hideGroupLog = configXml.hideGroup.@value;
+			 
+			if(configXml.hideLine.@value == "true")
+				dfltHideLine = true;
+			else
+				dfltHideLine = false;
+			hideLineLog = configXml.hideLine.@value;
 			
 			dfltSaveButtonX=configXml.saveButtonX.@value;
 			dfltSaveButtonY=configXml.saveButtonY.@value;
@@ -671,6 +686,7 @@ package com.adobe.flex.extras.controls.springgraph {
 			this.autoFit = dfltAutoFit;
 			this.rmVlan = dfltHideVlan;
 			this.rmGroup = dfltHideGroup;
+			this.rmLine = dfltHideLine;			
 			
 			var viewFactory:myViewFactory = new myViewFactory();
 			viewFactory.setClickEventXML(clickEventXml);
@@ -715,6 +731,7 @@ package com.adobe.flex.extras.controls.springgraph {
 			configXml.scale.@value = scaleLog;
 			configXml.hideVlan.@value = hideVlanLog;
 			configXml.hideGroup.@value = hideGroupLog;
+			configXml.hideLine.@value = hideLineLog;
 			configXml.sndMenu.@Bad=sndIdx["Bad"];
 			configXml.sndMenu.@Alarm=sndIdx["Alarm"];
 			configXml.sndMenu.@Victim=sndIdx["Victim"];
@@ -802,7 +819,7 @@ package com.adobe.flex.extras.controls.springgraph {
 
 			
 			fullGraphWithVlan = new Graph();
-			fullGraphWithVlan.updateFromXML(treeXml, lineXml, null, rmVlan, rmGroup, dfltCenterID);
+			fullGraphWithVlan.updateFromXML(treeXml, lineXml, null, rmVlan, rmGroup, rmLine, dfltCenterID);
 			/*
 			fullGraphRmVlan = new Graph();
 			fullGraphRmVlan.updateFromXMLRmVlan(treeXml, null);
@@ -1078,6 +1095,11 @@ package com.adobe.flex.extras.controls.springgraph {
 			else
 				menuXml.menuitem[1].menuitem[6].@toggled = "false";
 			
+			if(dfltHideLine == true)
+				menuXml.menuitem[1].menuitem[7].@toggled = "true";
+			else
+				menuXml.menuitem[1].menuitem[7].@toggled = "false";
+			
 			for each (var distanceXml: XML in menuXml.menuitem[2].menuitem[0].descendants("menuitem"))
 			{
 				if(distanceXml.@label == String(dfltDistance))
@@ -1233,12 +1255,12 @@ package com.adobe.flex.extras.controls.springgraph {
 				words = line.split("\t");
 				
 				if(words[0] == "ip")
-					redirectItemArray = fullGraphWithVlan.findItemArrayByIP(words[1]);
+					redirectItemArray = this.dataProvider.findItemArrayByIP(words[1]);
 				else if(words[0] == "idx")
-					redirectItemArray = fullGraphWithVlan.findItemArrayByIdx(words[1]);
+					redirectItemArray = this.dataProvider.findItemArrayByIdx(words[1]);
 				else if(words[0] == "name")
 				{
-					redirectItemArray = fullGraphWithVlan.findItemArrayByName(words[1]);
+					redirectItemArray = this.dataProvider.findItemArrayByName(words[1]);
 				}
 				else 
 					redirectItemArray = null;
@@ -1326,6 +1348,7 @@ package com.adobe.flex.extras.controls.springgraph {
 		
 		public function refreshAttack():void
 		{
+			//Alert.show("refreshAttack");
 			urAttack.url = dfltPHPDIR + "atkProxy.php";
 			urAttack.method = URLRequestMethod.GET;
 			urAttack.requestHeaders.push(header);
@@ -1349,7 +1372,7 @@ package com.adobe.flex.extras.controls.springgraph {
 			this.clearAttack();
 			
 			for each (var attackSrc: XML in attackXml.descendants("ATTACK_SRC")) {
-				attackSrcItem = fullGraphWithVlan.findByIP(attackSrc.@ip);
+				attackSrcItem = super.dataProvider.findByIP(attackSrc.@ip);
 				//Alert.show("find source "+ attackSrc.@ip + " result " + (attackSrcItem==null).toString());
 				if(attackSrcItem!=null)
 				{
@@ -1371,14 +1394,14 @@ package com.adobe.flex.extras.controls.springgraph {
 			
 			for each (var attackVictim: XML in attackXml.descendants("ATTACK_VICTIM")) {
 				
-				attackVictimItem = fullGraphWithVlan.findByIP(attackVictim.@ip);
+				attackVictimItem = super.dataProvider.findByIP(attackVictim.@ip);
 				//Alert.show("find victim "+ attackVictim.@ip + " result " + (attackVictimItem==null).toString());
 				if(attackVictimItem!=null)
 				{
 					attackVictimItem.attackVictimID = attackVictim.@id;
 					if(atkSrcArrayA.hasOwnProperty(attackVictim.@id))
 					{
-						fullGraphWithVlan.setAttackPath(atkSrcArrayA[attackVictim.@id], attackVictimItem, attackVictim.@id, rmVlan, rmGroup);
+						super.dataProvider.setAttackPath(atkSrcArrayA[attackVictim.@id], attackVictimItem, attackVictim.@id, rmVlan, rmGroup);
 					}
 					attackVictimItem.atkXML = attackVictim;
 				}
@@ -1399,7 +1422,7 @@ package com.adobe.flex.extras.controls.springgraph {
 			}
 			
 			for each (var attackIsoSrc: XML in attackXml.descendants("ATTACK_ISO_SRC")) {
-				attackSrcItem = fullGraphWithVlan.findByIP(attackIsoSrc.@ip);
+				attackSrcItem = super.dataProvider.findByIP(attackIsoSrc.@ip);
 				if(attackSrcItem!=null)
 				{
 					attackSrcItem.attackSrcID = -1;
@@ -1437,20 +1460,22 @@ package com.adobe.flex.extras.controls.springgraph {
 			var lines:Array = String(loaderStatus.data).split("\n");
 			var words:Array;
 			
+			//Alert.show("refreshStatus");
+			
 			this.clearStatus();
 			
 			for each (var line: String in lines) {
 				
 				words = line.split(",");
 				if(words[2] == "name")
-					statusItem = fullGraphWithVlan.findByName(words[0]);
+					statusItem = super.dataProvider.findByName(words[0]);
 				else
-					statusItem = fullGraphWithVlan.findByIP(words[0]);
+					statusItem = super.dataProvider.findByIP(words[0]);
 				if(statusItem!=null)
 				{
 					statusItem.status = words[1];
 				}
-				
+								
 				/*
 				statusItem = fullGraphRmVlan.findByIP(words[0]);
 				if(statusItem!=null)
@@ -1468,6 +1493,7 @@ package com.adobe.flex.extras.controls.springgraph {
 		
 		public function refreshRate():void
 		{
+			
 			urTreeParser.url =  dfltPHPDIR + "treeParser.php";
 			urTreeParser.method = URLRequestMethod.GET;
 			urTreeParser.requestHeaders.push(header);
@@ -1530,24 +1556,31 @@ package com.adobe.flex.extras.controls.springgraph {
 		private function updateRate(ev:Event):void
 		{
 			var textTmp:String = ulTreeXML.data.readMultiByte(ulTreeXML.data.length, lang);
+			var nodesTmp: Object;
+			
  			lineXml =  new XML(textTmp);
 			
-			fullGraphWithVlan.updateFromXML(treeXml, lineXml, null, rmVlan, rmGroup, _currentItem.id);
-			this.dataProvider.updateFromXML(treeXml, lineXml, null, rmVlan, rmGroup, _currentItem.id);
 
+			fullGraphWithVlan.updateFromXML(treeXml, lineXml, null, rmVlan, rmGroup, rmLine, _currentItem.id);
+			//this.dataProvider.updateFromXML(treeXml, lineXml, null, rmVlan, rmGroup, rmLine, _currentItem.id);
+
+			
+			//doSetDataProvider(fullGraphWithVlan);
+			/*
 			var itemTmp : Item;
 		
-			for each (var location: XML in locationXml.descendants("location")) {
+			nodesTmp = fullGraphWithVlan.nodes();
+			
+			for each (var location: XML in nodesTmp) {
 				itemTmp = this.dataProvider.find(location.@id);
 				if(itemTmp != null)
 				{
 					itemTmp.X = location.@x;
 					itemTmp.Y = location.@y;
 				}
-			}
-
-			//doSetDataProvider(fullGraphWithVlan);
+			}*/
 			
+				
 			this.reDrawCurrent();
 			this.drawEdges();
 			/*
@@ -1561,6 +1594,7 @@ package com.adobe.flex.extras.controls.springgraph {
 			}
 				*/		
 			ulTreeXML.close();
+					
 		}
 		
 		

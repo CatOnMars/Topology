@@ -27,6 +27,7 @@ import flash.geom.Rectangle;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
+import mx.controls.Alert;
 import mx.core.UIComponent;
 
  /** Manages the graph data for a SpringGraph
@@ -52,6 +53,7 @@ public class GraphDataProvider implements IDataProvider {
 		var result: GraphNode;
 		if(nodeStore.hasOwnProperty(item.id)) {
 			result = nodeStore[item.id];
+			result.item = item; /*rewrite item value*/
 			
 			/*if(result.item.numChild != result.item.numShownChild)
 				(myItemView)(result.view).hiddenNodes.text = result.item.numShownChild + "/" + result.item.numChild;
@@ -123,6 +125,7 @@ public class GraphDataProvider implements IDataProvider {
 			var nodeY:int = node.view.y;
 			host.removeComponent(node.view);
 			delete nodeStore[node.item.id];
+
 			nodeStore[node.item.id] = new GraphNode(host.newComponentXY(node.item, nodeX, nodeY), this, node.item);
 		}
 	}
@@ -166,6 +169,7 @@ public class GraphDataProvider implements IDataProvider {
 		for each (var item: Item in newItems) {
 			nodes.push(makeGraphNode(item));
 		}
+				
 		if(oldNodes != null) {
 			for each (var oldNode: GraphNode in oldNodes) {
 				if(!g.hasNode(oldNode.item.id)) {
@@ -177,7 +181,8 @@ public class GraphDataProvider implements IDataProvider {
 				}
 			}
 		}
-
+				
+		
 		// re-create the list of edges
 		edges = new Array();
 		for each (var edge: Array in newEdges) {

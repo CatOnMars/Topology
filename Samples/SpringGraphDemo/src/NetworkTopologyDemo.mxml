@@ -125,7 +125,7 @@
 				timeToRefresh = 5;
 				refreshTime.text = String(dfltRefreshInterval);
 				
-				var timer:Timer = new Timer(100, 0);
+				var timer:Timer = new Timer(200, 0);
 				timer.addEventListener(TimerEvent.TIMER, onTick);
 				timer.start();
 			}
@@ -293,24 +293,32 @@
 				timeToRefresh = 0;
 			}
 			
+			private var phase2RefreshPeriod:Number = 1;
+			private var phase2Refresh:Number = 0;
+			
 			private function onTick(ev:Event):void {
-				timeToRefresh -= 0.1;
+				timeToRefresh -= 0.2;
+				
+				if(phase2Refresh > 0)
+				{
+					phase2Refresh -= 0.2;
+					if(phase2Refresh <= 0)
+					{
+						for each (var roamer: Roamer in roamerArray)
+						{
+							roamer.loadRedirect();
+						}
+					}
+				}
+				
 				if(timeToRefresh <= 0)
 				{
-					
 					for each (var roamer: Roamer in roamerArray)
 					{
-						////roamer.doSaveLocation();
-						////roamer.genTopologyData();
-						roamer.loadRedirect();
-						//roamer.refreshAttack();
 						roamer.refreshRate();
-						//roamer.refresStatus();
-					//	roamer.doSaveSndConfig();
-				//		roamer.loadSnd();
-					//	roamer.checkAndPlaySnd();
 					}
 					timeToRefresh = refreshPeriod;
+					phase2Refresh = phase2RefreshPeriod;
 				}
 			
 				timeLeftLable.text = timeToRefresh.toFixed(1).toString();

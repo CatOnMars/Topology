@@ -13,6 +13,7 @@
   	</menuitem> 
 	<menuitem label="隱藏VLAN" data="hideVlan" type="check"/>
 	<menuitem label="隱藏Group" data="hideGroup" type="check"/>	
+	<menuitem label="隱藏Line" data="hideLine" type="check"/>	
   </menuitem>
   <menuitem label="組態設定">
   	<menuitem label="最大拓樸階層深度">

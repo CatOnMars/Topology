@@ -418,17 +418,18 @@ package com.adobe.flex.extras.controls.springgraph
 				itemView.txt.text = item.data.@ip;
 			
 			
-			itemView.txt.autoSize = TextFieldAutoSize.LEFT;
+			itemView.txt.autoSize = TextFieldAutoSize.CENTER;
 			itemView.txt.y = itemView.devPic.height;
 			itemView.addChild(itemView.txt);
 			
 			itemView.height = itemView.devPic.height;
 			itemView.width = itemView.devPic.width;
 			
+			/*
 			var tf1:TextFormat = new TextFormat('',numNodeFontSize);
 			tf1.color = String(numNodeFontColor);
 			
-			/*if(item.numChild != item.numShownChild)
+			if(item.numChild != item.numShownChild)
 				itemView.hiddenNodes.text = item.numShownChild + "/" + item.numChild;
 			else
 				itemView.hiddenNodes.text = "";
@@ -524,7 +525,6 @@ package com.adobe.flex.extras.controls.springgraph
 			{
 				if(null != itemView.statusCircle)
 					itemView.removeChild(itemView.statusCircle);
-
 				
 				if(item.status != 0xff)
 				{
