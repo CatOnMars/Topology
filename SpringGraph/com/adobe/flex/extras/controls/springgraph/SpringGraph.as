@@ -768,8 +768,10 @@ package com.adobe.flex.extras.controls.springgraph {
 				if(_viewFactory != null)
 					(myViewFactory)(_viewFactory).txtInfo = dataStrArray[1];
 				
-				setDataProvider(_graph);
-				reDrawItems();
+				//setDataProvider(_graph);
+				//reDrawItems();
+				//updateCurrentItem(_currentItem.id);
+				setItemTxt();
 				txtLog = dataStrArray[1];
 			}
 			else if(dataStrArray[0] == "hideVlan")
@@ -809,6 +811,12 @@ package com.adobe.flex.extras.controls.springgraph {
 				hideLineLog = event.item.@toggled;
 			}
 			
+			
+		}
+		
+		/*overwrited by roamer*/
+		protected function setItemTxt():void
+		{
 			
 		}
 		
@@ -1508,6 +1516,7 @@ package com.adobe.flex.extras.controls.springgraph {
 				var HasUrl:Boolean = false;
 				if(MovieClip(event.currentTarget) == myItemView(event.currentTarget.parent).devPic)
 				{
+					//Alert.show("1 url:"+node.item.devPath);
 					if(String(node.item.devPath).length != 0 && node.item.devPath != "none")
 						HasUrl = true;
 				

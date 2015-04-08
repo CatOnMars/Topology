@@ -210,10 +210,12 @@ package com.adobe.flex.extras.controls.springgraph
 						{
 							toItem.parentItem = fromItem;
 							
+							/*
 							while(toItem.parentItem != null && (toItem.parentItem.data.@nodeType == "VLAN" || (toItem.parentItem.data.@nodeType == "Group" && isHideGroup == true))) 
 							{
 								toItem.parentItem = toItem.parentItem.parentItem;
 							} 
+							*/
 							
 							continue;
 						}
@@ -224,43 +226,47 @@ package com.adobe.flex.extras.controls.springgraph
 						if(fromItem.id != centralItemID)
 						{
 							fromItem = fromItem.parentItem;
-							while(fromItem.parentItem != null && (fromItem.parentItem.data.@nodeType == "VLAN" || (fromItem.parentItem.data.@nodeType == "Group" && isHideGroup == true))) 
+							while(fromItem != null && (fromItem.data.@nodeType == "VLAN" || (fromItem.data.@nodeType == "Group" && isHideGroup == true))) 
 							{
-								fromItem.parentItem = fromItem.parentItem.parentItem;
+								fromItem = fromItem.parentItem;
 							} 
 						}
 
 					}
 				}
+				
 				if(true == isHideGroup)
 				{
-					if(toItem.data.@nodeType == "Group") /*router --> group*/
+					if(toItem.data.@nodeType == "Group") //router --> group
 					{
 						if(toItem.id != centralItemID)
 						{
 							toItem.parentItem = fromItem;
+							/*
 							while(toItem.parentItem != null && (toItem.parentItem.data.@nodeType == "Group" || (toItem.parentItem.data.@nodeType == "VLAN" && isHideVlan == true))) 
 							{
 								toItem.parentItem = toItem.parentItem.parentItem;
 							} 
+							*/
 							
 							continue;
 						}
 					}
-					if(fromItem.data.@nodeType == "Group") /*group --> host*/
+					if(fromItem.data.@nodeType == "Group") //group --> host
 					{
 						if(fromItem.id != centralItemID)
 						{
 							fromItem = fromItem.parentItem;
 							
-							while(fromItem.parentItem != null && (fromItem.parentItem.data.@nodeType == "Group" || (fromItem.parentItem.data.@nodeType == "VLAN" && isHideVlan == true))) 
+							while(fromItem != null && (fromItem.data.@nodeType == "Group" || (fromItem.data.@nodeType == "VLAN" && isHideVlan == true))) 
 							{
-								fromItem.parentItem = fromItem.parentItem.parentItem;
+								fromItem = fromItem.parentItem;
 							} 	
 							
 						}
 					}
 				}
+				
 				
 				
 				toItem.parentItem = fromItem;

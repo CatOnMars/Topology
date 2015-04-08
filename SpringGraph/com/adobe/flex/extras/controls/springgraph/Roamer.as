@@ -394,7 +394,7 @@ package com.adobe.flex.extras.controls.springgraph {
 				_skipItem = item.parentItem;
 			else
 				_skipItem = item.parentItem;*/
-			_maxDistanceFromCurrent = maxDistanceFromCurrentTmp;
+			//_maxDistanceFromCurrent = maxDistanceFromCurrentTmp;
 			recreateGraph();
 			this.loadRedirect();	
 			
@@ -432,6 +432,12 @@ package com.adobe.flex.extras.controls.springgraph {
 		{			
 			_itemLimit = maxNode;
 			recreateGraph();
+		}
+		
+		/*overwrited by roamer*/
+		override protected function setItemTxt():void
+		{
+			updateCurrentItem(_currentItem.id);
 		}
 		
 		/*to be overrided by roamer*/
@@ -1166,7 +1172,7 @@ package com.adobe.flex.extras.controls.springgraph {
 			//Alert.show("setMenuBar OK");
 		//	checkAndPlaySnd();
 	//		Alert.show("setMenuBar OK");
-			loadRedirect();
+			//loadRedirect();
 			/*refreshAttack();
 			refresStatus();*/
 		}
@@ -1182,24 +1188,25 @@ package com.adobe.flex.extras.controls.springgraph {
 			if(sessionID != null)
 			{
 				urRedirect.data = new URLVariables("redirectpath="+dfltRedirectPath+sessionID+".redirect.txt"+"&time="+Number(new Date().getTime()));
-				trace("redirectpath="+dfltRedirectPath+"redirect.txt"+"&time="+Number(new Date().getTime()));
+				//Alert.show("redirectpath="+dfltRedirectPath+sessionID+".redirect.txt"+"&time="+Number(new Date().getTime()));
 			}
 			else
 			{
 				urRedirect.data = new URLVariables("redirectpath="+dfltRedirectPath+"redirect.txt"+"&time="+Number(new Date().getTime()));
-				trace("redirectpath="+dfltRedirectPath+"redirect.txt"+"&time="+Number(new Date().getTime()));
+				//Alert.show("redirectpath="+dfltRedirectPath+"redirect.txt"+"&time="+Number(new Date().getTime()));
 			}
 			
 			//urRedirect.data = new URLVariables("redirectpath="+dfltRedirectPath+"&time="+Number(new Date().getTime()));
 			loaderRedirect = new URLLoader();
 			loaderRedirect.load(urRedirect);
 			loaderRedirect.addEventListener(Event.COMPLETE, setRedirect);	
+			
 		}
 	
 		private function setRedirect(ev:Event):void
 		{					
 			//var redirectItem:Item = null;
-		//	Alert.show(loaderRedirect.data);
+			Alert.show(loaderRedirect.data);
 			var redirectItemArray:Array = null;
 			var lines:Array = String(loaderRedirect.data).split("\n");
 			var words:Array;
@@ -1255,12 +1262,12 @@ package com.adobe.flex.extras.controls.springgraph {
 				words = line.split("\t");
 				
 				if(words[0] == "ip")
-					redirectItemArray = this.dataProvider.findItemArrayByIP(words[1]);
+					redirectItemArray = super.dataProvider.findItemArrayByIP(words[1]);
 				else if(words[0] == "idx")
-					redirectItemArray = this.dataProvider.findItemArrayByIdx(words[1]);
+					redirectItemArray = super.dataProvider.findItemArrayByIdx(words[1]);
 				else if(words[0] == "name")
 				{
-					redirectItemArray = this.dataProvider.findItemArrayByName(words[1]);
+					redirectItemArray = super.dataProvider.findItemArrayByName(words[1]);
 				}
 				else 
 					redirectItemArray = null;
@@ -1276,10 +1283,12 @@ package com.adobe.flex.extras.controls.springgraph {
 							{
 								var idx:int;
 								idx = devXML.@DevIconUrlIdx;
+																
 								if((idx != -1) && (words.length >= idx+3))
 									redirectItem.devPath = words[idx+2];
 								else
 									redirectItem.devPath = "none";
+
 								idx = devXML.@StatusIconUrlIdx;
 								if((idx != -1) && (words.length >= idx+3))
 									redirectItem.statePath = words[idx+2];
@@ -1368,7 +1377,7 @@ package com.adobe.flex.extras.controls.springgraph {
 			var attackVictimItem:Item = null;
 			
 			attackXml =  new XML(loaderAttack.data);
-			
+									
 			this.clearAttack();
 			
 			for each (var attackSrc: XML in attackXml.descendants("ATTACK_SRC")) {
