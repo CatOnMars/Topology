@@ -396,7 +396,8 @@ package com.adobe.flex.extras.controls.springgraph {
 				_skipItem = item.parentItem;*/
 			//_maxDistanceFromCurrent = maxDistanceFromCurrentTmp;
 			recreateGraph();
-			this.loadRedirect();	
+			//this.loadRedirect();
+			refreshRedirTimer = 2;
 			
 			dispatchEvent(new Event("currentItemChange"));
 		}
@@ -1206,7 +1207,7 @@ package com.adobe.flex.extras.controls.springgraph {
 		private function setRedirect(ev:Event):void
 		{					
 			//var redirectItem:Item = null;
-			Alert.show(loaderRedirect.data);
+			//Alert.show(loaderRedirect.data);
 			var redirectItemArray:Array = null;
 			var lines:Array = String(loaderRedirect.data).split("\n");
 			var words:Array;
@@ -1566,32 +1567,30 @@ package com.adobe.flex.extras.controls.springgraph {
 		{
 			var textTmp:String = ulTreeXML.data.readMultiByte(ulTreeXML.data.length, lang);
 			var nodesTmp: Object;
+			var itemTmp : Item;			
 			
  			lineXml =  new XML(textTmp);
+			doRecordLocation();
+			nodesTmp = fullGraphWithVlan.nodes();	
 			
-
 			fullGraphWithVlan.updateFromXML(treeXml, lineXml, null, rmVlan, rmGroup, rmLine, _currentItem.id);
 			//this.dataProvider.updateFromXML(treeXml, lineXml, null, rmVlan, rmGroup, rmLine, _currentItem.id);
-
 			
 			//doSetDataProvider(fullGraphWithVlan);
-			/*
-			var itemTmp : Item;
-		
-			nodesTmp = fullGraphWithVlan.nodes();
+			
+			//this.reDrawCurrent();
+			//this.drawEdges();
+			updateCurrentItem( _currentItem.id);
 			
 			for each (var location: XML in nodesTmp) {
-				itemTmp = this.dataProvider.find(location.@id);
+				itemTmp = fullGraphWithVlan.find(location.@id);
 				if(itemTmp != null)
 				{
 					itemTmp.X = location.@x;
 					itemTmp.Y = location.@y;
 				}
-			}*/
+			}			
 			
-				
-			this.reDrawCurrent();
-			this.drawEdges();
 			/*
 			var nodes: Array = _dataProvider.getAllNodes();
 			

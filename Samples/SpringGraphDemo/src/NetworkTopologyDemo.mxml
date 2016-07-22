@@ -122,7 +122,7 @@
 					addTopology(topologyContainer);
 				
 				refreshPeriod = dfltRefreshInterval;
-				timeToRefresh = 5;
+				timeToRefresh = refreshPeriod;
 				refreshTime.text = String(dfltRefreshInterval);
 				
 				var timer:Timer = new Timer(200, 0);
@@ -293,18 +293,16 @@
 				timeToRefresh = 0;
 			}
 			
-			private var phase2RefreshPeriod:Number = 1;
-			private var phase2Refresh:Number = 0;
 			
 			private function onTick(ev:Event):void {
 				timeToRefresh -= 0.2;
 				
-				if(phase2Refresh > 0)
+				for each (var roamer: Roamer in roamerArray)
 				{
-					phase2Refresh -= 0.2;
-					if(phase2Refresh <= 0)
+					if(roamer.refreshRedirTimer > 0)
 					{
-						for each (var roamer: Roamer in roamerArray)
+						roamer.refreshRedirTimer -= 0.2;
+						if(roamer.refreshRedirTimer <= 0)
 						{
 							roamer.loadRedirect();
 						}
@@ -318,7 +316,6 @@
 						roamer.refreshRate();
 					}
 					timeToRefresh = refreshPeriod;
-					phase2Refresh = phase2RefreshPeriod;
 				}
 			
 				timeLeftLable.text = timeToRefresh.toFixed(1).toString();

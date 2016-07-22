@@ -293,23 +293,24 @@ package com.adobe.flex.extras.controls.springgraph
 					}
 					
 					var data1:Object = new Object();
+					var idxVal:Number = edge.attribute(idxName); 
 					
 					if(edge.attribute(idxName) == "-1" || isHideLine == true)
-						data1 = {settings: {alpha: 0, color: 0x0, thickness: 4}}; //invisible line
+						data1 = {settings: {alpha: 0, color: 0x0, thickness: 4, idx: idxVal}}; //invisible line
 					else if(txRate == -1)
-						data1 = {settings: {alpha: 0.9, color: /*specialCode*/0x123456, thickness: 4}};
+						data1 = {settings: {alpha: 0.9, color: /*specialCode*/0x123456, thickness: 4, idx: idxVal}};
 					else
 					{
 						if(txPercent >=0 && txPercent <= 25)
-							data1 = {settings: {alpha: 0.9, color: /*blue*/0x0030ff, thickness: 4}};
+							data1 = {settings: {alpha: 0.9, color: /*blue*/0x0030ff, thickness: 4, idx: idxVal}};
 						else if(txPercent >25 && txPercent <= 50)
-							data1 = {settings: {alpha: 0.9, color: /*green*/0x33d900, thickness: 4}};
+							data1 = {settings: {alpha: 0.9, color: /*green*/0x33d900, thickness: 4, idx: idxVal}};
 						else if(txPercent >50 && txPercent <= 75)
-							data1 = {settings: {alpha: 0.9, color: /*yellow*/0xffff00, thickness: 4}};
+							data1 = {settings: {alpha: 0.9, color: /*yellow*/0xffff00, thickness: 4, idx: idxVal}};
 						else if(txPercent >75 && txPercent <= 100)
-							data1 = {settings: {alpha: 0.9, color: /*orange*/0xff9c00, thickness: 4}};
+							data1 = {settings: {alpha: 0.9, color: /*orange*/0xff9c00, thickness: 4, idx: idxVal}};
 						else if(txPercent >100)
-							data1 = {settings: {alpha: 0.9, color: /*red*/0xff0000, thickness: 4}};
+							data1 = {settings: {alpha: 0.9, color: /*red*/0xff0000, thickness: 4, idx: idxVal}};
 					}
 					data1["rxRate"] = rxRate;
 					data1["txRate"] = txRate;
@@ -319,22 +320,22 @@ package com.adobe.flex.extras.controls.springgraph
 					var data2:Object = new Object();
 					if(edge.attribute(idxName) == "-1" || isHideLine == true)
 					{
-						data2 = {settings: {alpha: 0, color: 0x0, thickness: 4}}; //invisible line
+						data2 = {settings: {alpha: 0, color: 0x0, thickness: 4, idx: idxVal}}; //invisible line
 					}
 					else if(rxRate == -1)
-						data2 = {settings: {alpha: 0.9, color: /*specialCode*/0x123456, thickness: 4}};
+						data2 = {settings: {alpha: 0.9, color: /*specialCode*/0x123456, thickness: 4, idx: idxVal}};
 					else
 					{
 						if(rxPercent >=0 && rxPercent <= 25)
-							data2 = {settings: {alpha: 0.9, color: /*blue*/0x0030ff, thickness: 4}};
+							data2 = {settings: {alpha: 0.9, color: /*blue*/0x0030ff, thickness: 4, idx: idxVal}};
 						else if(rxPercent >25 && rxPercent <= 50)
-							data2 = {settings: {alpha: 0.9, color: /*green*/0x33d900, thickness: 4}};
+							data2 = {settings: {alpha: 0.9, color: /*green*/0x33d900, thickness: 4, idx: idxVal}};
 						else if(rxPercent >50 && rxPercent <= 75)
-							data2 = {settings: {alpha: 0.9, color: /*yellow*/0xffff00, thickness: 4}};
+							data2 = {settings: {alpha: 0.9, color: /*yellow*/0xffff00, thickness: 4, idx: idxVal}};
 						else if(rxPercent >75 && rxPercent <= 100)
-							data2 = {settings: {alpha: 0.9, color: /*orange*/0xff9c00, thickness: 4}};
+							data2 = {settings: {alpha: 0.9, color: /*orange*/0xff9c00, thickness: 4, idx: idxVal}};
 						else if(rxPercent >100)
-							data2 = {settings: {alpha: 0.9, color: /*red*/0xff0000, thickness: 4}};
+							data2 = {settings: {alpha: 0.9, color: /*red*/0xff0000, thickness: 4, idx: idxVal}};
 					}
 					data2["rxRate"] = rxRate;
 					data2["txRate"] = txRate;
@@ -351,7 +352,9 @@ package com.adobe.flex.extras.controls.springgraph
 				var fromItem: Item = this.findByIP(edge.attribute("fromIP"));
 				var toItem: Item = this.findByIP(edge.attribute("toIP"));
 				
-				data1 = {settings: {alpha: 0.9, color: /*specialCode*/0x123456, thickness: 4}};
+				var idxVal:Number = edge.attribute(idxName);				
+				
+				data1 = {settings: {alpha: 0.9, color: /*specialCode*/0x123456, thickness: 4, idx: idxVal}};
 				
 				if(fromItem != null && toItem != null)
 				{
@@ -381,22 +384,22 @@ package com.adobe.flex.extras.controls.springgraph
 					
 					if(edge.attribute(idxName) == "-1" || isHideLine == true)
 					{
-						data1 = {settings: {alpha: 0, color: 0x0, thickness: 4}}; //invisible line
+						data1 = {settings: {alpha: 0, color: 0x0, thickness: 4, idx: idxVal}}; //invisible line
 					}
 					else if(txRate == -1)
-						data1 = {settings: {alpha: 0.9, color: /*specialCode*/0x123456, thickness: 4}};
+						data1 = {settings: {alpha: 0.9, color: /*specialCode*/0x123456, thickness: 4, idx: idxVal}};
 					else
 					{
 						if(txPercent >=0 && txPercent <= 25)
-							data1 = {settings: {alpha: 0.9, color: /*blue*/0x0030ff, thickness: 4}};
+							data1 = {settings: {alpha: 0.9, color: /*blue*/0x0030ff, thickness: 4, idx: idxVal}};
 						else if(txPercent >25 && txPercent <= 50)
-							data1 = {settings: {alpha: 0.9, color: /*green*/0x33d900, thickness: 4}};
+							data1 = {settings: {alpha: 0.9, color: /*green*/0x33d900, thickness: 4, idx: idxVal}};
 						else if(txPercent >50 && txPercent <= 75)
-							data1 = {settings: {alpha: 0.9, color: /*yellow*/0xffff00, thickness: 4}};
+							data1 = {settings: {alpha: 0.9, color: /*yellow*/0xffff00, thickness: 4, idx: idxVal}};
 						else if(txPercent >75 && txPercent <= 100)
-							data1 = {settings: {alpha: 0.9, color: /*orange*/0xff9c00, thickness: 4}};
+							data1 = {settings: {alpha: 0.9, color: /*orange*/0xff9c00, thickness: 4, idx: idxVal}};
 						else if(txPercent >100)
-							data1 = {settings: {alpha: 0.9, color: /*red*/0xff0000, thickness: 4}};
+							data1 = {settings: {alpha: 0.9, color: /*red*/0xff0000, thickness: 4, idx: idxVal}};
 					}
 					data1["rxRate"] = rxRate;
 					data1["txRate"] = txRate;
@@ -406,22 +409,22 @@ package com.adobe.flex.extras.controls.springgraph
 					var data2:Object = new Object();
 					if(edge.attribute(idxName) == "-1" || isHideLine == true)
 					{
-						data2 = {settings: {alpha: 0, color:0x0, thickness: 4}}; //invisible line
+						data2 = {settings: {alpha: 0, color:0x0, thickness: 4, idx: idxVal}}; //invisible line
 					}
 					else if(rxRate == -1)
-						data2 = {settings: {alpha: 0.9, color: /*specialCode*/0x123456, thickness: 4}};
+						data2 = {settings: {alpha: 0.9, color: /*specialCode*/0x123456, thickness: 4, idx: idxVal}};
 					else
 					{
 						if(rxPercent >=0 && rxPercent <= 25)
-							data2 = {settings: {alpha: 0.9, color: /*blue*/0x0030ff, thickness: 4}};
+							data2 = {settings: {alpha: 0.9, color: /*blue*/0x0030ff, thickness: 4, idx: idxVal}};
 						else if(rxPercent >25 && rxPercent <= 50)
-							data2 = {settings: {alpha: 0.9, color: /*green*/0x33d900, thickness: 4}};
+							data2 = {settings: {alpha: 0.9, color: /*green*/0x33d900, thickness: 4, idx: idxVal}};
 						else if(rxPercent >50 && rxPercent <= 75)
-							data2 = {settings: {alpha: 0.9, color: /*yellow*/0xffff00, thickness: 4}};
+							data2 = {settings: {alpha: 0.9, color: /*yellow*/0xffff00, thickness: 4, idx: idxVal}};
 						else if(rxPercent >75 && rxPercent <= 100)
-							data2 = {settings: {alpha: 0.9, color: /*orange*/0xff9c00, thickness: 4}};
+							data2 = {settings: {alpha: 0.9, color: /*orange*/0xff9c00, thickness: 4, idx: idxVal}};
 						else if(rxPercent >100)
-							data2 = {settings: {alpha: 0.9, color: /*red*/0xff0000, thickness: 4}};
+							data2 = {settings: {alpha: 0.9, color: /*red*/0xff0000, thickness: 4, idx: idxVal}};
 					}
 					data2["rxRate"] = rxRate;
 					data2["txRate"] = txRate;
@@ -907,8 +910,8 @@ package com.adobe.flex.extras.controls.springgraph
 			var data2:Object = new Object();
 			var log:String = "";
 			
-			data1 = {settings: {alpha: 0, color: /*red*/0xff0000, thickness: 4}};
-			data2 = {settings: {alpha: 0, color: /*red*/0xff0000, thickness: 4}};
+			data1 = {settings: {alpha: 0, color: /*red*/0xff0000, thickness: 4, idx: 0}};
+			data2 = {settings: {alpha: 0, color: /*red*/0xff0000, thickness: 4, idx: 0}};
 			
 			for each (var item: Item in fstLayerNodes) {
 				log += "(" +item.data.@ip + "," + item.fstLayerGroupIdx + ")";

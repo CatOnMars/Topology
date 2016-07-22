@@ -289,6 +289,7 @@ package com.adobe.flex.extras.controls.springgraph {
 			var minDistance:int = 20;
 			var toNodeTmp: GraphNode;
 			var isFound:Boolean = false;
+			var toItem:Item = null;			
 			
 			for each (var edge: GraphEdge in edges) {
 				var fromNode: GraphNode = GraphNode(edge.getFrom());
@@ -381,8 +382,7 @@ package com.adobe.flex.extras.controls.springgraph {
 				var rxRateStr: String;
 				var txRateStr: String;
 				var idxStr:String;
-				var toItem:Item = null;
-				
+			
 			
 				if(rxRateTmp < 10)
 					rxRateStr = int(rxRateTmp*1000) + " bits";
@@ -444,14 +444,13 @@ package com.adobe.flex.extras.controls.springgraph {
 				else
 					idxStr = "";
 				
-				
-				
 				((myItemView)(edgeFromNode.view)).edgeUrl = "none";
 				
 				if(toItem != null)
 				{
 					urlString = transEdgeUrlString(toItem, edgeUrlFmt, idxStr, keyEmpty);
 					((myItemView)(edgeFromNode.view)).edgeUrl = urlString;
+					//Alert.show("edgeUrl:"+((myItemView)(edgeFromNode.view)).edgeUrl);
 				}
 				
 			}
@@ -472,9 +471,11 @@ package com.adobe.flex.extras.controls.springgraph {
 			var now: int = getTimer();
 			if((now - lastMouseDownTime) < 300) {
 				// it's a double-click
+				//Alert.show((edgeFromNode == null).toString());
+				
 				if(edgeFromNode != null) {
 					//trace("double click to " + node.item.data.@idx + " " + node.item.data.@ip);
-
+					//Alert.show(((myItemView)(edgeFromNode.view)).edgeUrl);
 					if(((myItemView)(edgeFromNode.view)).edgeUrl != "none")
 						navigateToURL(new URLRequest(((myItemView)(edgeFromNode.view)).edgeUrl), "_blank");
 				}
@@ -2494,23 +2495,18 @@ package com.adobe.flex.extras.controls.springgraph {
 		protected var _lineColor: int = 0xcccccc;
 
 	    /** @private */
-
 		public var distinguishedLineColor: int = 0xff0000;
 
 	    /** @private */
-
 		public var _repulsionFactor: Number = 0.75;
 
 	    /** @private */
-
 		public var defaultRepulsion: Number = 100;
 
 	    /** @private */
-
 		protected var forceDirectedLayout: ForceDirectedLayout = null;
 
 		/** @private */
-
 		protected var drawingSurface: UIComponent; // we can't use our own background for drawing, because it doesn't scroll
 
 		/** @private */
@@ -2540,6 +2536,7 @@ package com.adobe.flex.extras.controls.springgraph {
 		protected var backGroundPicX:int = 10;
 		protected var backGroundPicY:int = 10;
 		protected var backGroundPicMoveEbl:int = 1;
+		public var refreshRedirTimer:int = 0;
 	}
  
 

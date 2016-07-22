@@ -61,8 +61,12 @@ package com.adobe.flex.extras.controls.springgraph
 			var alpha: Number = 1.0;
 			var thickness: int = 1;
 			var color:int = 0;
+			var idx:int = 0;
 			
 			var len:Number, unitX:Number, unitY:Number;
+			var newFromX:Number, newFromY:Number, newToX: Number, newToY:Number;
+			var arrowX:Number, arrowY:Number;
+			var curX:Number, curY:Number, nextX: Number, nextY:Number, vecX:Number, vecY: Number;
 			var realMidX:Number = (fromX + toX)/2, midX:Number;
 			var realMidY:Number = (fromY + toY)/2, midY:Number;
 			
@@ -104,13 +108,364 @@ package com.adobe.flex.extras.controls.springgraph
 				if((linkData != null) && (linkData.hasOwnProperty("settings"))) {
 					var settings: Object = linkData.settings;
 					alpha = settings.alpha;
+					idx = settings.idx;
+					//Alert.show("1 idx:"+idx);
 				}
-								
+				
 				g.lineStyle(1,0x111111,alpha);
-				g.beginFill(0);
-				g.moveTo(fromX, fromY);
-				g.lineTo(toX, toY);
-				g.endFill();
+				len = (toX - fromX) * (toX - fromX) + (toY - fromY)*(toY - fromY);
+				len = Math.sqrt(len);
+				curX = fromX;
+				curY = fromY;
+				vecX = (toX - fromX)/ len;
+				vecY = (toY - fromY)/ len;
+				//Alert.show("2 idx:"+idx);
+				if(idx == -2)
+				{
+					g.beginFill(0);
+					
+					while(curX != toX)
+					{
+						nextX = curX + 10* vecX;
+						nextY = curY + 10* vecY;
+						
+						g.moveTo(curX, curY);
+						g.lineTo(nextX, nextY);
+						
+						curX = nextX + 5* vecX;
+						curY = nextY + 5* vecY;
+						if((vecX > 0 && curX > toX) || (vecX < 0 && curX < toX))
+						{
+							curX = toX;
+						}
+					}
+					
+					g.endFill();
+				}
+				else if (idx == -3)
+				{
+					g.beginFill(0);
+					curX =  fromX + 2*vecY;
+					curY =  fromY - 2*vecX;
+					nextX =  toX + 2*vecY;
+					nextY =  toY - 2*vecX;
+					g.moveTo(curX, curY);
+					g.lineTo(nextX, nextY);
+										
+					curX =  fromX - 2*vecY;
+					curY =  fromY + 2*vecX;
+					nextX =  toX - 2*vecY;
+					nextY =  toY + 2*vecX;
+					g.moveTo(curX, curY);
+					g.lineTo(nextX, nextY);
+					
+					g.endFill();
+				}
+				else if (idx == -4)
+				{
+					g.beginFill(0);
+					curX = newFromX =  fromX + 2*vecY;
+					curY = newFromY =  fromY - 2*vecX;
+					newToX =  toX + 2*vecY;
+					newToY =  toY - 2*vecX;
+					
+					while(curX != newToX)
+					{
+						nextX = curX + 10* vecX;
+						nextY = curY + 10* vecY;
+						
+						g.moveTo(curX, curY);
+						g.lineTo(nextX, nextY);
+						
+						curX = nextX + 5* vecX;
+						curY = nextY + 5* vecY;
+						if((vecX > 0 && curX > newToX) || (vecX < 0 && curX < newToX))
+						{
+							curX = newToX;
+						}
+					}
+					
+					g.moveTo(curX, curY);
+					g.lineTo(nextX, nextY);
+					
+					curX = newFromX =  fromX - 2*vecY;
+					curY = newFromY =  fromY + 2*vecX;
+					newToX =  toX - 2*vecY;
+					newToY =  toY + 2*vecX;
+					
+					while(curX != newToX)
+					{
+						nextX = curX + 10* vecX;
+						nextY = curY + 10* vecY;
+						
+						g.moveTo(curX, curY);
+						g.lineTo(nextX, nextY);
+						
+						curX = nextX + 5* vecX;
+						curY = nextY + 5* vecY;
+						if((vecX > 0 && curX > newToX) || (vecX < 0 && curX < newToX))
+						{
+							curX = newToX;
+						}
+					}
+					
+					
+					g.endFill();
+				}
+				else if (idx == -5)
+				{
+					g.beginFill(0);
+					curX =  fromX + 3*vecY;
+					curY =  fromY - 3*vecX;
+					nextX =  toX + 3*vecY;
+					nextY =  toY - 3*vecX;
+					g.moveTo(curX, curY);
+					g.lineTo(nextX, nextY);
+					
+					curX =  fromX - 3*vecY;
+					curY =  fromY + 3*vecX;
+					nextX =  toX - 3*vecY;
+					nextY =  toY + 3*vecX;
+					g.moveTo(curX, curY);
+					g.lineTo(nextX, nextY);
+					
+					g.moveTo(fromX, fromY);
+					g.lineTo(toX, toY);
+					
+					g.endFill();
+				}
+				else if (idx == -6)
+				{
+					g.beginFill(0);
+					curX = newFromX =  fromX + 3*vecY;
+					curY = newFromY =  fromY - 3*vecX;
+					newToX =  toX + 3*vecY;
+					newToY =  toY - 3*vecX;
+					
+					while(curX != newToX)
+					{
+						nextX = curX + 10* vecX;
+						nextY = curY + 10* vecY;
+						
+						g.moveTo(curX, curY);
+						g.lineTo(nextX, nextY);
+						
+						curX = nextX + 5* vecX;
+						curY = nextY + 5* vecY;
+						if((vecX > 0 && curX > newToX) || (vecX < 0 && curX < newToX))
+						{
+							curX = newToX;
+						}
+					}
+					
+					g.moveTo(curX, curY);
+					g.lineTo(nextX, nextY);
+					
+					curX = newFromX =  fromX - 3*vecY;
+					curY = newFromY =  fromY + 3*vecX;
+					newToX =  toX - 3*vecY;
+					newToY =  toY + 3*vecX;
+					
+					while(curX != newToX)
+					{
+						nextX = curX + 10* vecX;
+						nextY = curY + 10* vecY;
+						
+						g.moveTo(curX, curY);
+						g.lineTo(nextX, nextY);
+						
+						curX = nextX + 5* vecX;
+						curY = nextY + 5* vecY;
+						if((vecX > 0 && curX > newToX) || (vecX < 0 && curX < newToX))
+						{
+							curX = newToX;
+						}
+					}
+					
+					g.moveTo(curX, curY);
+					g.lineTo(nextX, nextY);
+					
+					curX = newFromX =  fromX;
+					curY = newFromY =  fromY;
+					newToX =  toX;
+					newToY =  toY;
+					
+					while(curX != newToX)
+					{
+						nextX = curX + 10* vecX;
+						nextY = curY + 10* vecY;
+						
+						g.moveTo(curX, curY);
+						g.lineTo(nextX, nextY);
+						
+						curX = nextX + 5* vecX;
+						curY = nextY + 5* vecY;
+						if((vecX > 0 && curX > newToX) || (vecX < 0 && curX < newToX))
+						{
+							curX = newToX;
+						}
+					}
+					
+					
+					g.endFill();
+				}
+				else if(idx == -7)
+				{
+					g.beginFill(0);
+					
+					curX = fromX;
+					curY = fromY;
+					
+					while(curX != toX)
+					{
+						nextX = curX + 16* vecX;
+						nextY = curY + 16* vecY;
+						
+						g.moveTo(curX, curY);
+						g.lineTo(nextX, nextY);
+						
+						curX = nextX;
+						curY = nextY;
+						arrowX = curX - 5*vecY - 7*vecX;
+						arrowY = curY + 5*vecX - 7*vecY;
+						
+						g.moveTo(curX, curY);
+						g.lineTo(arrowX, arrowY);
+						
+						arrowX = curX + 5*vecY - 7*vecX;
+						arrowY = curY - 5*vecX - 7*vecY;
+						
+						g.moveTo(curX, curY);
+						g.lineTo(arrowX, arrowY);
+						
+						curX = nextX + 10* vecX;
+						curY = nextY + 10* vecY;
+						if((vecX > 0 && curX > toX) || (vecX < 0 && curX < toX))
+						{
+							curX = toX;
+						}
+					}
+					
+					g.endFill();
+				}
+				else if(idx == -8)
+				{
+					g.beginFill(0);
+					
+					curX = fromX;
+					curY = fromY;
+					
+					while(curX != toX)
+					{
+						nextX = curX + 16* vecX;
+						nextY = curY + 16* vecY;
+						
+						g.moveTo(curX, curY);
+						g.lineTo(nextX, nextY);
+						
+						arrowX = curX - 5*vecY + 7*vecX;
+						arrowY = curY + 5*vecX + 7*vecY;
+						
+						g.moveTo(curX, curY);
+						g.lineTo(arrowX, arrowY);
+						
+						arrowX = curX + 5*vecY + 7*vecX;
+						arrowY = curY - 5*vecX + 7*vecY;
+						
+						g.moveTo(curX, curY);
+						g.lineTo(arrowX, arrowY);
+						
+						curX = nextX;
+						curY = nextY;
+						curX = nextX + 10* vecX;
+						curY = nextY + 10* vecY;
+						if((vecX > 0 && curX > toX) || (vecX < 0 && curX < toX))
+						{
+							curX = toX;
+						}
+					}
+					
+					g.endFill();
+				}
+				else if(idx == -9)
+				{
+					g.beginFill(0);
+					
+					curX = fromX;
+					curY = fromY;
+					
+					while(curX != toX)
+					{
+						nextX = curX + 16* vecX;
+						nextY = curY + 16* vecY;
+												
+						curX = nextX;
+						curY = nextY;
+						arrowX = curX - 5*vecY - 7*vecX;
+						arrowY = curY + 5*vecX - 7*vecY;
+						
+						g.moveTo(curX, curY);
+						g.lineTo(arrowX, arrowY);
+						
+						arrowX = curX + 4*vecY - 7*vecX;
+						arrowY = curY - 4*vecX - 7*vecY;
+						
+						g.moveTo(curX, curY);
+						g.lineTo(arrowX, arrowY);
+						
+						curX = nextX + 10* vecX;
+						curY = nextY + 10* vecY;
+						if((vecX > 0 && curX > toX) || (vecX < 0 && curX < toX))
+						{
+							curX = toX;
+						}
+					}
+					
+					g.endFill();
+				}
+				else if(idx == -10)
+				{
+					g.beginFill(0);
+					
+					curX = fromX;
+					curY = fromY;
+					
+					while(curX != toX)
+					{
+						nextX = curX + 16* vecX;
+						nextY = curY + 16* vecY;
+												
+						arrowX = curX - 5*vecY + 7*vecX;
+						arrowY = curY + 5*vecX + 7*vecY;
+						
+						g.moveTo(curX, curY);
+						g.lineTo(arrowX, arrowY);
+						
+						arrowX = curX + 5*vecY + 7*vecX;
+						arrowY = curY - 5*vecX + 7*vecY;
+						
+						g.moveTo(curX, curY);
+						g.lineTo(arrowX, arrowY);
+						
+						curX = nextX;
+						curY = nextY;
+						curX = nextX + 10* vecX;
+						curY = nextY + 10* vecY;
+						if((vecX > 0 && curX > toX) || (vecX < 0 && curX < toX))
+						{
+							curX = toX;
+						}
+					}
+					
+					g.endFill();
+				}
+				else
+				{
+					g.beginFill(0);
+					g.moveTo(fromX, fromY);
+					g.lineTo(toX, toY);
+					g.endFill();					
+				}
 			}
 			else
 			{
