@@ -60,10 +60,10 @@
 			private var urSaveGblConfig:URLRequest = new URLRequest();
 			private var loaderSaveGblConfig:URLLoader;
 			
-			var header:URLRequestHeader = new URLRequestHeader("pragma", "no-cache");
+			private var header:URLRequestHeader = new URLRequestHeader("pragma", "no-cache");
 
 			
-			var topologyContainer:Canvas = new Canvas();
+			private var topologyContainer:Canvas = new Canvas();
 			
 			private function init():void {
 				CanSave = this.parameters.CanSave;
@@ -181,7 +181,8 @@
 			//	roamer.mrtgWebPath;
 				roamer.createInfoWindow(this);
 			//	Alert.show(this.height.toString());
-				SpringGraph.infoWinDev.height=this.height-(SpringGraph.infoWinMrtg.y+SpringGraph.infoWinMrtg.height)+10;
+				if(SpringGraph.infoWinDev.height == 0)
+					SpringGraph.infoWinDev.height=this.height-(SpringGraph.infoWinMrtg.y+SpringGraph.infoWinMrtg.height)+10;
 
 			}
 			private function addTopology(topologyContainer:Canvas):Boolean
@@ -299,11 +300,18 @@
 				
 				for each (var roamer: Roamer in roamerArray)
 				{
+					if(roamer.forceRefresh == 1)
+					{
+						timeToRefresh = 0;
+						roamer.forceRefresh = 0;
+					}
+					
 					if(roamer.refreshRedirTimer > 0)
 					{
 						roamer.refreshRedirTimer -= 0.2;
 						if(roamer.refreshRedirTimer <= 0)
 						{
+							roamer.refreshRedirTimer = -1; //force it to be negative
 							roamer.loadRedirect();
 						}
 					}
@@ -314,6 +322,7 @@
 					for each (var roamer: Roamer in roamerArray)
 					{
 						roamer.refreshRate();
+					
 					}
 					timeToRefresh = refreshPeriod;
 				}

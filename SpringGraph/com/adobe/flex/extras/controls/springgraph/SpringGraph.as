@@ -32,6 +32,10 @@ package com.adobe.flex.extras.controls.springgraph {
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
 	import flash.net.navigateToURL;
+	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
+	import flash.text.TextFormat;
+	import flash.text.TextFormatAlign;
 	import flash.text.TextLineMetrics;
 	import flash.utils.Timer;
 	import flash.utils.getTimer;
@@ -178,6 +182,12 @@ package com.adobe.flex.extras.controls.springgraph {
 		private var loaderSave:URLLoader;
 		private var header:URLRequestHeader = new URLRequestHeader("pragma", "no-cache");
 
+		public var tfRate:TextFormat;
+		public var txtFontSize:int = 22;
+		public var txtFontColor:int = 0x000000;
+		public var forceRefresh:int = 0;
+		
+				
 		public function SpringGraph(): void {
 
 			drawingSurface = new UIComponent();
@@ -201,14 +211,60 @@ package com.adobe.flex.extras.controls.springgraph {
 			drawingSurface.addEventListener("mouseOver", edgeOverEvent);
 			drawingSurface.addEventListener("mouseOut", edgeOutEvent);
 			
-
+			tfRate = new TextFormat('',txtFontSize);
+			tfRate.align = TextFormatAlign.CENTER
+			tfRate.color = String(txtFontColor);
 		}
 		
 	
 		public static var infoWinMrtg:infoWindow=null;
 		public static var infoWinDev:infoWindow=null;
 		public static var infoWinVisible:Boolean=false;
+		public var infoWinMrtgX:Number=3;
+		public var infoWinMrtgY:Number=60;
+		public var infoWinDevX:Number=0;
+		public var infoWinDevY:Number=0;
+		public var infoWinMrtg_height:int=240;
+		public var infoWinMrtg_width:int=190;
+		public var infoWinDev_height:int=240;
+		public var infoWinDev_width:int=0;
 
+		private function infoLocation(event: MouseEvent):void  {
+			
+			if(infoWinDev.y < 30)
+				infoWinDev.y = 30;
+				
+			if(infoWinMrtg.y < 30)
+				infoWinMrtg.y = 30;
+			
+			if(infoWinDev.x < 3)
+				infoWinDev.x = 3;
+			
+			if(infoWinMrtg.x < 3)
+				infoWinMrtg.x = 3;
+			
+			if(infoWinDev.y > this.height - 30)
+				infoWinDev.y = this.height - infoWinDev.height;
+			
+			if(infoWinMrtg.y > this.height - 30)
+				infoWinMrtg.y = this.height - infoWinMrtg.height;
+			
+			if(infoWinDev.x > this.width - 30)
+				infoWinDev.x = this.width - infoWinDev.width;
+			
+			if(infoWinMrtg.x > this.width - 50)
+				infoWinMrtg.x = this.width - infoWinMrtg.width;
+			
+			event.stopImmediatePropagation();			
+		}
+		
+		public function updateInfoWindowSize():void{
+			infoWinMrtg.width = infoWinMrtg_width;
+			infoWinMrtg.height = infoWinMrtg_height;
+			infoWinDev.width = infoWinDev_width;
+			infoWinDev.height = infoWinDev_height;
+		}
+		
 		public function createInfoWindow(parent):void{
 			if (infoWinMrtg||infoWinDev)
 				return;
@@ -218,18 +274,40 @@ package com.adobe.flex.extras.controls.springgraph {
 		//	infoWin.toggle();
 			infoWinMrtg.visible=false;
 			infoWinDev.visible=false;
-			infoWinMrtg.x=3;
-			infoWinMrtg.y=60;
-			infoWinDev.y=infoWinMrtg.y+infoWinMrtg.height-10;
+			infoWinMrtg.x=infoWinMrtgX;
+			infoWinMrtg.y=infoWinMrtgY;
+			
+			if(infoWinDevX == 0 && infoWinDevY == 0)
+			{
+				infoWinDev.y=infoWinMrtg.y+infoWinMrtg.height-10;
+			}
+			else
+			{
+				infoWinDev.x=infoWinDevX;
+				infoWinDev.y=infoWinDevY;
+			}
 		//	infoWinDev.height=this.height-(infoWinMrtg.y+infoWinMrtg.height);
 			var iframe=infoWinMrtg.getChildByName("frame");
 			iframe.visible=false;
+			
 			iframe=infoWinDev.getChildByName("frame");
 			iframe.visible=false;
-
+			
+			
 			infoWinMrtg.otherWin=infoWinDev;
 			infoWinDev.otherWin=infoWinMrtg;
 
+			infoWinMrtg.width = infoWinMrtg_width;
+			infoWinMrtg.height = infoWinMrtg_height;
+			infoWinDev.width = infoWinDev_width;
+			infoWinDev.height = infoWinDev_height;
+			
+			infoWinMrtg.addEventListener("mouseUp", infoLocation);
+			infoWinDev.addEventListener("mouseUp", infoLocation);
+			infoWinMrtg.addEventListener("mouseMove", infoLocation);
+			infoWinDev.addEventListener("mouseMove", infoLocation);
+			//infoWinDev.addEventListener(ResizeEvent.RESIZE, onResize);
+			
 		}
 				
 		public var mrtgDirPath:String = "../mrtgdata/";
@@ -384,26 +462,11 @@ package com.adobe.flex.extras.controls.springgraph {
 				var idxStr:String;
 			
 			
-				if(rxRateTmp < 10)
-					rxRateStr = int(rxRateTmp*1000) + " bits";
-				else if(rxRate < 10000)
-					rxRateStr = int(rxRateTmp) + " Kbits";
-				else if(rxRateTmp < 10000000)
-					rxRateStr = int(rxRateTmp/1000) + " Mbits";
-				else
-					rxRateStr = int(rxRateTmp/1000000) + " Gbits";
-				
-				if(txRateTmp < 10)
-					txRateStr = int(txRateTmp*1000) + " bits";
-				else if(txRateTmp < 10000)
-					txRateStr = int(txRateTmp) + " Kbits";
-				else if(txRateTmp < 10000000)
-					txRateStr = int(txRateTmp/1000) + " Mbits";
-				else
-					txRateStr = int(txRateTmp/1000000) + " Gbits";
+				rxRateStr = linkData.rxRateStr;
+				txRateStr = linkData.txRateStr;
 				
 				
-				dataXMLList = 
+				var dataXMLList:XMLList = 
 					<>
 					<fv>
 						<f>TX Rate</f>
@@ -434,7 +497,6 @@ package com.adobe.flex.extras.controls.springgraph {
 					dataGrid.y = event.localY + dataGrid.height;
 				
 				this.addChild(dataGrid);
-				
 				
 				dataGridShown = true;
 				edgeFromNode = toNodeTmp;
@@ -540,7 +602,7 @@ package com.adobe.flex.extras.controls.springgraph {
 		
 		public function setUI(menuBarXML:XML, dfltIsManual:Boolean, dfltShowRate:Boolean, dfltShowAttack:Boolean, 
 							  dfltShowStatus:Boolean, dfltAlpha:Number, dfltFontSize:int, dfltRateLine:int, canSave:Boolean): void{
-
+			
 			if(menuBar == null)
 			{
 				menuBar = new MenuBar();
@@ -602,6 +664,7 @@ package com.adobe.flex.extras.controls.springgraph {
 		
 		protected var showBGLog:String = "true";
 		protected var showRateLog:String = "true";
+		protected var showRateInfoLog:String = "true";		
 		protected var showAttackLog:String = "true";
 		protected var showStatusLog:String = "true";
 		protected var distanceLog:String = "4";
@@ -690,6 +753,30 @@ package com.adobe.flex.extras.controls.springgraph {
 				
 				showRateLog = event.item.@toggled;
 			}
+			else if(dataStrArray[0] == "showRateInfo")
+			{
+				var showRateInfo:Boolean;
+				if(event.item.@toggled == "true")
+				{
+					showRateInfo = true;
+				}
+				else
+				{
+					showRateInfo = false;
+				}
+				//menuBarHdl.showRate(showRate);
+				showRateInfoLog = event.item.@toggled;
+				
+				if(_edgeRenderer != null)
+				{
+					(myEdgeRenderer)(_edgeRenderer).showRateInfo = showRateInfo;
+					drawEdges();
+				}
+				else
+					trace("edgeRender = null");
+				
+
+			}
 			else if(dataStrArray[0] == "showAttack")
 			{
 				
@@ -751,6 +838,23 @@ package com.adobe.flex.extras.controls.springgraph {
 					rebuild();
 				}
 				showStatusLog = event.item.@toggled;
+			}
+			else if(event.item.@groupName == "devFontColor")
+			{
+				if(_viewFactory != null)
+					(myViewFactory)(_viewFactory).txtFontColor = event.item.@data;
+				
+				forceRefresh = 1;
+			}
+			else if(event.item.@groupName == "rateFontColor")
+			{
+				this.txtFontColor = event.item.@data;
+				if(tfRate != null)
+				{
+					tfRate.color = String(event.item.@data);
+				}
+				
+				forceRefresh = 1;
 			}
 			else if(dataStrArray[0] == "distance")
 			{
@@ -961,6 +1065,8 @@ package com.adobe.flex.extras.controls.springgraph {
 			this.addChild(saveButton);
 		}
 		
+		public var locationLog: String;
+		
 		public function doRecordLocation():void
 		{
 			var nodes: Array;
@@ -970,22 +1076,28 @@ package com.adobe.flex.extras.controls.springgraph {
 			{
 				nodes = _dataProvider.getAllNodes();
 				
+				locationLog = "<?xml version=\"1.0\" encoding=\"utf-8\" ?><graph>";
+				
 				for each (var node: Node in nodes) {
 					nodeItem = fullGraph.find((GraphNode)(node).item.id);
 					if(nodeItem != null)
 					{
 						nodeItem.X = (GraphNode)(node).view.x;
 						nodeItem.Y = (GraphNode)(node).view.y;
+						
+						locationLog = locationLog + "<location id=\"" + nodeItem.id + "\" x=\"" + nodeItem.X + "\" y=\"" + nodeItem.Y + "\"/>";
 					}
 				}
 				
+				locationLog = locationLog +  "</graph>";
 			}
 		}
 		
-		public function doSaveLocation():void
+		public function doSaveLocationCache():void
 		{
 			var nodes: Object;
 			var locationLog: String;
+			
 			
 			if(_graph != null)
 			{
@@ -995,6 +1107,39 @@ package com.adobe.flex.extras.controls.springgraph {
 				for each (var node: Item in nodes) {
 					locationLog = locationLog + "<location id=\"" + node.id + "\" x=\"" + node.X + "\" y=\"" + node.Y + "\"/>";
 				}
+				
+				locationLog = locationLog + "<location id=\"" + "infoWinMrtg" + "\" x=\"" + infoWinMrtg.x + "\" y=\"" + infoWinMrtg.y + "\"/>";
+				locationLog = locationLog + "<location id=\"" + "infoWinDev" + "\" x=\"" + infoWinDev.x + "\" y=\"" + infoWinDev.y + "\"/>";
+				
+				
+				urSave.url = dfltPHPDIR + "locationCacheSave.php";	
+				urSave.method = URLRequestMethod.POST;
+				urSave.requestHeaders.push(header);
+				urSave.data = new URLVariables("fileName="+locationFileName+"&location="+locationLog+"&time="+Number(new Date().getTime()));
+				loaderSave = new URLLoader();
+				loaderSave.load(urSave);
+			}
+		}
+		
+		
+	
+		public function doSaveLocation():void
+		{
+			var nodes: Object;
+			var locationLog: String;			
+			
+			if(_graph != null)
+			{
+				nodes = fullGraph.nodes;
+				
+				locationLog = "";
+				for each (var node: Item in nodes) {
+					locationLog = locationLog + "<location id=\"" + node.id + "\" x=\"" + node.X + "\" y=\"" + node.Y + "\"/>";
+				}
+				
+				locationLog = locationLog + "<location id=\"" + "infoWinMrtg" + "\" x=\"" + infoWinMrtg.x + "\" y=\"" + infoWinMrtg.y + "\"/>";
+				locationLog = locationLog + "<location id=\"" + "infoWinDev" + "\" x=\"" + infoWinDev.x + "\" y=\"" + infoWinDev.y + "\"/>";
+				
 				
 				urSave.url = dfltPHPDIR + "locationSave.php";	
 				urSave.method = URLRequestMethod.POST;
@@ -1164,19 +1309,149 @@ package com.adobe.flex.extras.controls.springgraph {
 		}
 
 
-
 		private function drawEdge(f: UIComponent, t: UIComponent, color: int): void {
 			var fromX: int = f.x + (f.width / 2);
 			var fromY: int = f.y + (f.height / 2);
 			var toX: int = t.x + (t.width / 2);
 			var toY: int = t.y + (t.height / 2);
-	
-			
-			if((_edgeRenderer != null) && _edgeRenderer.draw(drawingSurface.graphics, f, t, fromX, fromY, toX, toY, _graph))
-				return;
-
 			var fromItem: Item = (f as IDataRenderer).data as Item;
 			var toItem: Item = (t as IDataRenderer).data as Item;
+			var linkData: Object;
+			var tmp: Object;
+			
+			if((_edgeRenderer != null) && _edgeRenderer.draw(drawingSurface.graphics, f, t, fromX, fromY, toX, toY, _graph))
+			{
+				/*add rate text*/
+
+				linkData = _graph.getLinkData(fromItem, toItem);
+				
+				if(linkData != null)
+				{
+					if(toItem.id < fromItem.id)
+					{
+						tmp = f;
+						f = t;
+						t = (UIComponent)(tmp);
+						tmp = fromItem;
+						fromItem = toItem;
+						toItem = (Item)(tmp);
+						tmp = fromX;
+						fromX = toX;
+						toX = (int)(tmp);
+						tmp = fromY;
+						fromY = toY;
+						toY = (int)(tmp);
+					}
+					
+					if(! ((myEdgeRenderer)(_edgeRenderer).showRate == true && showRateInfoLog == "true"))
+					{
+						if ((myItemView)(t).txRateTxt.hasOwnProperty(fromItem.id))
+							(myItemView)(t).txRateTxt[fromItem.id].visible = false;
+						
+						if ((myItemView)(t).rxRateTxt.hasOwnProperty(fromItem.id))
+							(myItemView)(t).rxRateTxt[fromItem.id].visible = false;
+						
+						return;
+					}
+						
+					
+					if(linkData.txRate > 0)
+					{
+						if(! (myItemView)(t).rxRateTxt.hasOwnProperty(fromItem.id))
+						{
+							var rxRateTxt:TextField = new TextField();
+							
+							rxRateTxt.text = "test";
+							rxRateTxt.setTextFormat(tfRate);
+							rxRateTxt.defaultTextFormat = tfRate;
+							rxRateTxt.selectable = false;
+							rxRateTxt.autoSize = TextFieldAutoSize.LEFT;
+							rxRateTxt.border = true;		
+							rxRateTxt.visible = false;
+							
+							(myItemView)(t).rxRateTxt[fromItem.id] = rxRateTxt;
+							(myItemView)(t).addChild(rxRateTxt);
+						}
+						
+						(myItemView)(t).rxRateTxt[fromItem.id].text = linkData.txPercent.toPrecision(3) + " %\n" + "RX:"+linkData.txRateStr;
+						(myItemView)(t).rxRateTxt[fromItem.id].x = ((fromX - toX) / 8 * 3) / t.scaleX - (myItemView)(t).rxRateTxt[fromItem.id].width/2 * t.scaleX;
+						(myItemView)(t).rxRateTxt[fromItem.id].y = ((fromY - toY) / 8 * 3) / t.scaleY - (myItemView)(t).rxRateTxt[fromItem.id].height/2 * t.scaleY;
+						(myItemView)(t).rxRateTxt[fromItem.id].visible = true;
+					}
+					
+					if(linkData.rxRate > 0)
+					{
+						if(! (myItemView)(t).txRateTxt.hasOwnProperty(fromItem.id))
+						{
+							var txRateTxt:TextField = new TextField();
+							
+							txRateTxt.text = "test";
+							txRateTxt.setTextFormat(tfRate);
+							txRateTxt.defaultTextFormat = tfRate;
+							txRateTxt.selectable = false;
+							txRateTxt.autoSize = TextFieldAutoSize.LEFT;
+							txRateTxt.border = true;		
+							txRateTxt.visible = false;
+							
+							(myItemView)(t).txRateTxt[fromItem.id] = txRateTxt;
+							(myItemView)(t).addChild(txRateTxt);
+						}
+						
+						(myItemView)(t).txRateTxt[fromItem.id].text = linkData.rxPercent.toPrecision(3) + " %\n" + "TX:"+linkData.rxRateStr;
+						(myItemView)(t).txRateTxt[fromItem.id].x = ((fromX - toX) / 8 * 5) / t.scaleX - (myItemView)(t).txRateTxt[fromItem.id].width/2 * t.scaleX;
+						(myItemView)(t).txRateTxt[fromItem.id].y = ((fromY - toY) / 8 * 5) / t.scaleY - (myItemView)(t).txRateTxt[fromItem.id].height/2 * t.scaleY;
+						(myItemView)(t).txRateTxt[fromItem.id].visible = true;
+					}
+			
+				}
+				
+				
+				/*
+				if(toItem.id > fromItem.id)
+				{
+					if(toItem.rxRate > 0 && toItem.txRate > 0 && (myEdgeRenderer)(_edgeRenderer).showRate == true && showRateInfoLog == "true")
+					{
+						(myItemView)(t).rxRateTxt.text = toItem.txPercent.toPrecision(3) + " %\n" + "RX:"+toItem.txRateStr;
+						(myItemView)(t).rxRateTxt.x = ((fromX - toX) / 4) / t.scaleX - (myItemView)(t).rxRateTxt.width/2 * t.scaleX;
+						(myItemView)(t).rxRateTxt.y = ((fromY - toY) / 4) / t.scaleY - (myItemView)(t).rxRateTxt.height/2 * t.scaleX;
+						(myItemView)(t).rxRateTxt.visible = true;
+						
+						(myItemView)(t).txRateTxt.text = toItem.rxPercent.toPrecision(3) + " %\n" + "TX:"+toItem.rxRateStr;
+						(myItemView)(t).txRateTxt.x = ((fromX - toX) / 4 * 3) / t.scaleX - (myItemView)(t).txRateTxt.width/2 * t.scaleX;
+						(myItemView)(t).txRateTxt.y = ((fromY - toY) / 4 * 3) / t.scaleY - (myItemView)(t).txRateTxt.height/2 * t.scaleY;
+						(myItemView)(t).txRateTxt.visible = true;
+					}
+					else
+					{
+						(myItemView)(t).rxRateTxt.visible = false;
+						(myItemView)(t).txRateTxt.visible = false;
+					}
+				}
+				else
+				{
+					if(fromItem.rxRate > 0 && fromItem.txRate > 0 && (myEdgeRenderer)(_edgeRenderer).showRate == true && showRateInfoLog == "true")
+					{
+						(myItemView)(f).rxRateTxt.text = fromItem.txPercent.toPrecision(3) + " %\n" + "RX:"+fromItem.txRateStr;
+						(myItemView)(f).rxRateTxt.x = ((toX - fromX) / 4) / f.scaleX - (myItemView)(f).rxRateTxt.width/2 * f.scaleX;
+						(myItemView)(f).rxRateTxt.y = ((toY - fromY) / 4) / f.scaleY - (myItemView)(f).rxRateTxt.height/2 * f.scaleY;
+						(myItemView)(f).rxRateTxt.visible = true;
+						
+						(myItemView)(f).txRateTxt.text = fromItem.rxPercent.toPrecision(3) + " %\n" + "TX:"+fromItem.rxRateStr;
+						(myItemView)(f).txRateTxt.x = ((toX - fromX) / 4 * 3) / f.scaleX - (myItemView)(f).txRateTxt.width/2 * f.scaleX;
+						(myItemView)(f).txRateTxt.y = ((toY - fromY) / 4 * 3) / f.scaleY - (myItemView)(f).txRateTxt.height/2 * f.scaleY;
+						(myItemView)(f).txRateTxt.visible = true;
+					}
+					else 
+					{
+						(myItemView)(f).rxRateTxt.visible = false;
+						(myItemView)(f).txRateTxt.visible = false;
+					}
+				}
+				*/
+
+				return;
+			}
+
 			var linkData: Object = _graph.getLinkData(fromItem, toItem);
 			var alpha: Number = 1.0;
 			var thickness: int = 1;
@@ -1544,15 +1819,15 @@ package com.adobe.flex.extras.controls.springgraph {
 				if(infoWinMrtg.lock==false){
 					var ip:String=mrtgDirPath+node.item.data.@ip;
 					if(node.item.data.@idx!=""){
-						iframeMrtg.source=ip+"/day"+node.item.data.@idx+"minify.html";	
+						iframeMrtg.source=ip+"/day"+node.item.data.@idx+"minify.html";
 					}
-					iframeDev.source=ip+"/day"+node.item.data.@idx+"content.html";
+					iframeDev.source=ip+"/devicecontent.html";
 				//	Alert.show(mrtgDirPath+node.item.data.@ip);
 	//				if(ip!="")
 		//				iframeDev.source=mrtgDirPath+ip+"/devicecontent.html";
 				}
 				
-				dataXMLList = 
+				var dataXMLList:XMLList =  
 					<>
 					<fv>
 						<f>Type</f>
@@ -1910,7 +2185,9 @@ package com.adobe.flex.extras.controls.springgraph {
 
    		}
 
- 
+ 		private var locationCacheTime: int = 20 * 60; // 3 min
+		private var locationTick: int = 0;
+		private var locationCacheCnt: int = 0;
 
  		/** @private */
 
@@ -1936,12 +2213,24 @@ package com.adobe.flex.extras.controls.springgraph {
 
 				this.invalidateDisplayList();
 			}
+			
+			locationTick ++;
+			if(locationTick == locationCacheTime)
+			{
+				locationTick = 0;
 
+				if(locationCacheCnt <= 3)
+				{
+					//doSaveLocationCache();
+					locationCacheCnt ++;
+					//Alert.show("locationCacheCnt "+locationCacheCnt);
+				}
+						
+			}
+			
 			startTimer();
 
        }
-
-
 
 	    /** @private */
 
@@ -2536,7 +2825,7 @@ package com.adobe.flex.extras.controls.springgraph {
 		protected var backGroundPicX:int = 10;
 		protected var backGroundPicY:int = 10;
 		protected var backGroundPicMoveEbl:int = 1;
-		public var refreshRedirTimer:int = 0;
+		public var refreshRedirTimer:Number = 0;
 	}
  
 
@@ -2596,7 +2885,11 @@ class AlphaChanger implements IForEachNode {
 	}
 	
 	public function forEachNode( n: Node ): void {
-		(GraphNode)(n).view.alpha = _newAlpha;
+		(myItemView)((GraphNode)(n).view).devPic.alpha = _newAlpha;
+		if(_newAlpha == 0)
+			(myItemView)((GraphNode)(n).view).txt.y = (myItemView)((GraphNode)(n).view).devPic.height/2;
+		else
+			(myItemView)((GraphNode)(n).view).txt.y = (myItemView)((GraphNode)(n).view).devPic.height;
 	}
 }
 

@@ -21,20 +21,29 @@ package com.adobe.flex.extras.controls.springgraph
 	import com.adobe.flex.extras.controls.springgraph.Item;
 	
 	import flash.display.Graphics;
+	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
+	import flash.ui.ContextMenuItem;
 	
 	import mx.controls.Alert;
 	import mx.core.IDataRenderer;
 	import mx.core.UIComponent;
-
 	
+
 	public class myEdgeRenderer implements IEdgeRenderer
 	{
 		public var showRate:Boolean;
+		public var showRateInfo:Boolean;		
 		public var showAttack:Boolean = false;
 		public var rateThickness:int = 2;
 		public var sepDepth:Number = 2;
 		public var aBackDepth:Number = 9;
 		public var aOpenWidth:Number = 4;
+		private var host: Object;	
+		
+		public function myEdgeRenderer(host: Object): void {
+			this.host = host;
+		}
 		
 		/** SpringGraph will call this function each time it needs to draw
 		 * a link connecting two itemRenderer.
@@ -555,6 +564,8 @@ package com.adobe.flex.extras.controls.springgraph
 				g.lineTo(arrowX, arrowY);
 				
 				g.endFill();
+				
+								
 			}
 			return true;
 		}

@@ -385,7 +385,7 @@ package com.adobe.flex.extras.controls.springgraph {
 					itemTmp.Y = location.@y;
 				}
 			}
-		
+					
 			//recreateGraph();
 			doSetDataProvider(fullGraphWithVlan);
 			item = fullGraphWithVlan.find(itemID);
@@ -397,7 +397,8 @@ package com.adobe.flex.extras.controls.springgraph {
 			//_maxDistanceFromCurrent = maxDistanceFromCurrentTmp;
 			recreateGraph();
 			//this.loadRedirect();
-			refreshRedirTimer = 2;
+			
+			refreshRedirTimer = 1;
 			
 			dispatchEvent(new Event("currentItemChange"));
 		}
@@ -466,6 +467,7 @@ package com.adobe.flex.extras.controls.springgraph {
 		private var dfltShowBG:Boolean = false;
 		private var dfltShowStatus:Boolean = false;
 		private var dfltShowRate:Boolean = false;
+		private var dfltShowRateInfo:Boolean = false;		
 		private var dfltShowAttack:Boolean = false;
 		private var dfltAtkIsoX:int = 50;
 		private var dfltAtkIsoY:int = 0;
@@ -476,7 +478,8 @@ package com.adobe.flex.extras.controls.springgraph {
 		private var dfltAutoFit:Boolean = false;
 		private var dfltAlpha:Number = 1.0;
 		private var dfltFontSize:int = 24;
-		private var dfltFontColor:int = 0x000000;
+		private var dfltDevFontColor:int = 0x000000;
+		private var dfltRateFontColor:int = 0x000000;
 		private var dfltRateLine:int = 2;
 		private var dfltRefreshInterval:int = 5;
 		private var dfltRepulsion:Number = 1.0;
@@ -541,6 +544,12 @@ package com.adobe.flex.extras.controls.springgraph {
 				dfltShowRate = false;
 			showRateLog = configXml.showRate.@value;
 			
+			if(configXml.showRateInfo.@value == "true")
+				dfltShowRateInfo = true;
+			else
+				dfltShowRateInfo = false;
+			showRateInfoLog = configXml.showRateInfo.@value;
+			
 			if(configXml.showAttack.@value == "true")
 				dfltShowAttack = true;
 			else
@@ -575,7 +584,8 @@ package com.adobe.flex.extras.controls.springgraph {
 			alphaLog = configXml.alpha.@value;
 			dfltFontSize = configXml.fontSize.@value;
 			fontSizeLog = configXml.fontSize.@value;
-			dfltFontColor = configXml.fontColor.@value;
+			dfltDevFontColor = configXml.devFontColor.@value;
+			dfltRateFontColor = configXml.rateFontColor.@value;
 			dfltRateLine = configXml.rateLine.@value;
 			rateLineLog = configXml.rateLine.@value;
 			dfltRepulsion = configXml.repulsion.@value;
@@ -658,6 +668,16 @@ package com.adobe.flex.extras.controls.springgraph {
 				wheelLocation = 0;
 			}
 			
+			this.infoWinMrtg_width = configXml.infoWinMrtg_width.@value;
+			this.infoWinMrtg_height = configXml.infoWinMrtg_height.@value;
+			
+
+			this.infoWinDev_width = configXml.infoWinDev_width.@value;
+			this.infoWinDev_height = configXml.infoWinDev_height.@value;
+			
+			updateInfoWindowSize();
+			
+			
 			ulConfigXML.close();
 			loadRightClickMenu();
 		}
@@ -702,7 +722,10 @@ package com.adobe.flex.extras.controls.springgraph {
 			viewFactory.showAttack = dfltShowAttack;
 			viewFactory.txtInfo = dfltIdentify;
 			viewFactory.txtFontSize = dfltFontSize;
-			viewFactory.txtFontColor = dfltFontColor;
+			viewFactory.txtFontColor = dfltDevFontColor;
+			this.txtFontColor = dfltRateFontColor;
+			if(tfRate != null)
+				tfRate.color = String(dfltRateFontColor);
 			viewFactory.numNodeFontSize = dfltNumNodeFontSize;
 			viewFactory.numNodeFontColor = dfltNumNodeFontColor;
 			viewFactory.viewAlpha = dfltAlpha;
@@ -711,10 +734,11 @@ package com.adobe.flex.extras.controls.springgraph {
 			viewFactory.atkIsoX = dfltAtkIsoX;
 			viewFactory.atkIsoY = dfltAtkIsoY;
 			this.viewFactory = viewFactory;
-			var edgeRenderer:myEdgeRenderer = new myEdgeRenderer();
+			var edgeRenderer:myEdgeRenderer = new myEdgeRenderer(this);
 			edgeRenderer.rateThickness = dfltRateLine;
 			edgeRenderer.showAttack = dfltShowAttack;
 			edgeRenderer.showRate = dfltShowRate;
+			edgeRenderer.showRateInfo = dfltShowRateInfo;			
 			this.edgeRenderer = edgeRenderer;
 			this.mrtgDirPath = dfltMrtgPathFlashView;
 			genTopologyData();
@@ -727,6 +751,7 @@ package com.adobe.flex.extras.controls.springgraph {
 			configXml.showBG.@value = showBGLog;
 			configXml.showStatus.@value = showStatusLog;
 			configXml.showRate.@value = showRateLog;
+			configXml.showRateInfo.@value = showRateInfoLog;			
 			configXml.showAttack.@value = showAttackLog;
 			configXml.identify.@value = txtLog;
 			configXml.distance.@value = distanceLog;
@@ -734,6 +759,8 @@ package com.adobe.flex.extras.controls.springgraph {
 			configXml.manual.@value = manualLog;
 			configXml.alpha.@value = alphaLog;
 			configXml.fontSize.@value = fontSizeLog;
+			configXml.devFontColor.@value = (myViewFactory)(this.viewFactory).txtFontColor;
+			configXml.rateFontColor.@value = this.txtFontColor;
 			configXml.rateLine.@value = rateLineLog;
 			configXml.scale.@value = scaleLog;
 			configXml.hideVlan.@value = hideVlanLog;
@@ -820,8 +847,7 @@ package com.adobe.flex.extras.controls.springgraph {
 		public function loadLocation(ev:Event):void
 		{
 			var nodes: Array;
-			var locationLog: String;
-
+			
 			lineXml =  new XML(ulTreeXML.data);
 
 			
@@ -849,6 +875,7 @@ package com.adobe.flex.extras.controls.springgraph {
 			
 			graphTmp = fullGraphWithVlan;
 				
+			
 			if(loaderLoad.data != "")
 			{
 				locationXml =  new XML(loaderLoad.data);
@@ -859,6 +886,33 @@ package com.adobe.flex.extras.controls.springgraph {
 						itemTmp.X = location.@x;
 						itemTmp.Y = location.@y;
 					}
+
+					if(location.@id == "infoWinMrtg")
+					{
+						infoWinMrtgX = location.@x;
+						infoWinMrtgY = location.@y;
+						
+						if(infoWinMrtg != null)
+						{
+							infoWinMrtg.x = infoWinMrtgX;
+							infoWinMrtg.y = infoWinMrtgY;
+
+						}
+
+						
+					}
+					else if(location.@id == "infoWinDev")
+					{
+						infoWinDevX = location.@x;
+						infoWinDevY = location.@y;
+						
+						if(infoWinDev != null)
+						{
+							infoWinDev.x = infoWinDevX;
+							infoWinDev.y = infoWinDevY;
+						}
+					}
+					
 				}
 			}
 			
@@ -1071,41 +1125,62 @@ package com.adobe.flex.extras.controls.springgraph {
 			else
 				menuXml.menuitem[1].menuitem[1].@toggled = "false";
 			
-			if(dfltShowAttack == true)
+			if(dfltShowRateInfo == true)
 				menuXml.menuitem[1].menuitem[2].@toggled = "true";
 			else
 				menuXml.menuitem[1].menuitem[2].@toggled = "false";
 			
-			if(dfltShowStatus == true)
+			if(dfltShowAttack == true)
 				menuXml.menuitem[1].menuitem[3].@toggled = "true";
 			else
 				menuXml.menuitem[1].menuitem[3].@toggled = "false";
 			
+			if(dfltShowStatus == true)
+				menuXml.menuitem[1].menuitem[4].@toggled = "true";
+			else
+				menuXml.menuitem[1].menuitem[4].@toggled = "false";
+			
+			for each (var colorXml: XML in menuXml.menuitem[1].menuitem[5].descendants("menuitem"))
+			{
+				if((int)(colorXml.@data) == dfltDevFontColor)
+					colorXml.@toggled = "true";
+				else
+					colorXml.@toggled = "false";
+			}
+			
+			for each (var colorXml: XML in menuXml.menuitem[1].menuitem[6].descendants("menuitem"))
+			{
+				if((int)(colorXml.@data) == dfltRateFontColor)
+					colorXml.@toggled = "true";
+				else
+					colorXml.@toggled = "false";
+			}
+			
 			if(dfltIdentify == "ip")
 			{
-				menuXml.menuitem[1].menuitem[4].menuitem[0].@toggled = "true";
-				menuXml.menuitem[1].menuitem[4].menuitem[1].@toggled = "false";
+				menuXml.menuitem[1].menuitem[7].menuitem[0].@toggled = "true";
+				menuXml.menuitem[1].menuitem[7].menuitem[1].@toggled = "false";
 			}
 			else
 			{
-				menuXml.menuitem[1].menuitem[4].menuitem[0].@toggled = "false";
-				menuXml.menuitem[1].menuitem[4].menuitem[1].@toggled = "true";
+				menuXml.menuitem[1].menuitem[7].menuitem[0].@toggled = "false";
+				menuXml.menuitem[1].menuitem[7].menuitem[1].@toggled = "true";
 			}
 			
 			if(dfltHideVlan == true)
-				menuXml.menuitem[1].menuitem[5].@toggled = "true";
+				menuXml.menuitem[1].menuitem[8].@toggled = "true";
 			else
-				menuXml.menuitem[1].menuitem[5].@toggled = "false";
+				menuXml.menuitem[1].menuitem[8].@toggled = "false";
 			
 			if(dfltHideGroup == true)
-				menuXml.menuitem[1].menuitem[6].@toggled = "true";
+				menuXml.menuitem[1].menuitem[9].@toggled = "true";
 			else
-				menuXml.menuitem[1].menuitem[6].@toggled = "false";
+				menuXml.menuitem[1].menuitem[9].@toggled = "false";
 			
 			if(dfltHideLine == true)
-				menuXml.menuitem[1].menuitem[7].@toggled = "true";
+				menuXml.menuitem[1].menuitem[10].@toggled = "true";
 			else
-				menuXml.menuitem[1].menuitem[7].@toggled = "false";
+				menuXml.menuitem[1].menuitem[10].@toggled = "false";
 			
 			for each (var distanceXml: XML in menuXml.menuitem[2].menuitem[0].descendants("menuitem"))
 			{
@@ -1568,29 +1643,25 @@ package com.adobe.flex.extras.controls.springgraph {
 			var textTmp:String = ulTreeXML.data.readMultiByte(ulTreeXML.data.length, lang);
 			var nodesTmp: Object;
 			var itemTmp : Item;			
-			
+						
  			lineXml =  new XML(textTmp);
+
 			doRecordLocation();
-			nodesTmp = fullGraphWithVlan.nodes();	
-			
-			fullGraphWithVlan.updateFromXML(treeXml, lineXml, null, rmVlan, rmGroup, rmLine, _currentItem.id);
+			locationXml = new XML(locationLog);
+
+			//nodesTmp = fullGraphWithVlan.nodes();	
+
+			//fullGraphWithVlan.updateFromXML(treeXml, lineXml, null, rmVlan, rmGroup, rmLine, _currentItem.id);
 			//this.dataProvider.updateFromXML(treeXml, lineXml, null, rmVlan, rmGroup, rmLine, _currentItem.id);
 			
 			//doSetDataProvider(fullGraphWithVlan);
 			
 			//this.reDrawCurrent();
 			//this.drawEdges();
+			
 			updateCurrentItem( _currentItem.id);
-			
-			for each (var location: XML in nodesTmp) {
-				itemTmp = fullGraphWithVlan.find(location.@id);
-				if(itemTmp != null)
-				{
-					itemTmp.X = location.@x;
-					itemTmp.Y = location.@y;
-				}
-			}			
-			
+
+						
 			/*
 			var nodes: Array = _dataProvider.getAllNodes();
 			

@@ -34,6 +34,7 @@ package com.adobe.flex.extras.controls.springgraph
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
+	import flash.text.TextFormatAlign
 	import flash.ui.ContextMenu;
 	import flash.ui.ContextMenuItem;
 	import flash.xml.XMLNode;
@@ -407,7 +408,7 @@ package com.adobe.flex.extras.controls.springgraph
 			
 			itemView.itemId = item.id;
 			
-			itemView.devPic.alpha = 1.0;
+			itemView.devPic.alpha = viewAlpha;
 			itemView.devPic.x = 0;
 			itemView.devPic.y = 0;
 			itemView.addChild(itemView.devPic);
@@ -419,31 +420,15 @@ package com.adobe.flex.extras.controls.springgraph
 			
 			
 			itemView.txt.autoSize = TextFieldAutoSize.CENTER;
-			itemView.txt.y = itemView.devPic.height;
+			if(itemView.devPic.alpha == 0)
+				itemView.txt.y = itemView.devPic.height/2;
+			else
+				itemView.txt.y = itemView.devPic.height;
 			itemView.addChild(itemView.txt);
 			
 			itemView.height = itemView.devPic.height;
 			itemView.width = itemView.devPic.width;
-			
-			/*
-			var tf1:TextFormat = new TextFormat('',numNodeFontSize);
-			tf1.color = String(numNodeFontColor);
-			
-			if(item.numChild != item.numShownChild)
-				itemView.hiddenNodes.text = item.numShownChild + "/" + item.numChild;
-			else
-				itemView.hiddenNodes.text = "";
-			itemView.hiddenNodes.setTextFormat(tf1);
-			itemView.hiddenNodes.defaultTextFormat = tf1;
-			itemView.hiddenNodes.selectable = false;
-			itemView.hiddenNodes.y = 0 - 15;
-			itemView.hiddenNodes.autoSize = TextFieldAutoSize.LEFT;
-			itemView.hiddenNodes.backgroundColor = 0x0000ff;
-			itemView.hiddenNodes.x = itemView.width - itemView.hiddenNodes.width + 15;
-			
-			if(item.data.@nodeType != "Cloud")
-				itemView.addChild(itemView.hiddenNodes);*/
-			
+						
 			var tf2:TextFormat = new TextFormat('',txtFontSize);
 			tf2.color = String(txtFontColor);
 			itemView.txt.setTextFormat(tf2);
@@ -553,7 +538,7 @@ package com.adobe.flex.extras.controls.springgraph
 				}
 			}
 			
-			itemView.alpha = viewAlpha;
+			itemView.alpha = 1;
 			
 			if(item.data.@nodeType == "MvDevice")
 			{

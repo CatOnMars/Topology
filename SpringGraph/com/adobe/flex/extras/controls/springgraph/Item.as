@@ -86,6 +86,10 @@ package com.adobe.flex.extras.controls.springgraph
 		public var atkLinkPath:String = "";
 		public var rxRate: Number = 0.0;
 		public var txRate: Number = 0.0;
+		public var rxRateStr: String = "0 bits";
+		public var txRateStr: String = "0 bits";
+		public var rxPercent:Number = 0;
+		public var txPercent:Number = 0;		
 		public var X:Number = 0;
 		public var Y:Number = 0;
 		public var redirectWords:Array;

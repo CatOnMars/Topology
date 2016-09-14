@@ -18,6 +18,11 @@ package com.adobe.flex.extras.controls.springgraph
 {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
+	import flash.text.TextFormat;
+	import flash.text.TextFormatAlign;
+	
 	
 	import mx.controls.Alert;
 	import mx.controls.Button;
@@ -37,7 +42,7 @@ package com.adobe.flex.extras.controls.springgraph
 	 */
  	public class Graph extends EventDispatcher
 	{
-		public static const CHANGE:String = "change";
+		public static const CHANGE:String = "change";	
 
 		public function Graph(): void {
 		}
@@ -52,6 +57,7 @@ package com.adobe.flex.extras.controls.springgraph
 		public var duplicateNodes: Object = new Object(); // map of id -> Item for Duplicated nodes
 		public var fstLayerNodes: Object = new Object(); // map of id -> Item for first layer nodes
 		private var maxGroupIdx: int = 0;
+
 		
 	    /**
 	     *  Creates a graph from XML. The XML you provide should contain 2 kinds of elements<br>
@@ -284,12 +290,32 @@ package com.adobe.flex.extras.controls.springgraph
 					toItem.rxRate = rxRate;
 					toItem.txRate = txRate;
 					
+					if(rxRate < 10)
+						toItem.rxRateStr = int(rxRate*1000) + " bits";
+					else if(rxRate < 10000)
+						toItem.rxRateStr = int(rxRate) + " Kbits";
+					else if(rxRate < 10000000)
+						toItem.rxRateStr = int(rxRate/1000) + " Mbits";
+					else
+						toItem.rxRateStr = int(rxRate/1000000) + " Gbits";
+					
+					if(txRate < 10)
+						toItem.txRateStr = int(txRate*1000) + " bits";
+					else if(txRate < 10000)
+						toItem.txRateStr = int(txRate) + " Kbits";
+					else if(txRate < 10000000)
+						toItem.txRateStr = int(txRate/1000) + " Mbits";
+					else
+						toItem.txRateStr = int(txRate/1000000) + " Gbits";
+					
 					bandwidth = edge.attribute(bwName);
 					
 					if(bandwidth!=0) 
 					{
 						rxPercent = (rxRate/bandwidth) * 100; /*unit of bandwidth is 0.1 K bps*/
 						txPercent = (txRate/bandwidth) * 100;
+						toItem.rxPercent = rxPercent;
+						toItem.txPercent = txPercent;
 					}
 					
 					var data1:Object = new Object();
@@ -314,9 +340,14 @@ package com.adobe.flex.extras.controls.springgraph
 					}
 					data1["rxRate"] = rxRate;
 					data1["txRate"] = txRate;
+					data1["rxRateStr"] = toItem.rxRateStr;
+					data1["txRateStr"] = toItem.txRateStr;
+					data1["rxPercent"] = rxPercent;
+					data1["txPercent"] = txPercent;
 					data1["idx"] = edge.attribute(idxName);
 					data1["toNodeID"] = toItem.id;
-					
+										
+			
 					var data2:Object = new Object();
 					if(edge.attribute(idxName) == "-1" || isHideLine == true)
 					{
@@ -339,6 +370,10 @@ package com.adobe.flex.extras.controls.springgraph
 					}
 					data2["rxRate"] = rxRate;
 					data2["txRate"] = txRate;
+					data2["rxRateStr"] = toItem.rxRateStr;
+					data2["txRateStr"] = toItem.txRateStr;
+					data2["rxPercent"] = rxPercent;
+					data2["txPercent"] = txPercent;
 					data2["idx"] = edge.attribute(idxName);
 					data2["toNodeID"] = toItem.id;
 									
@@ -370,6 +405,25 @@ package com.adobe.flex.extras.controls.springgraph
 					txRate = edge.attribute(txRateName);
 					toItem.rxRate = rxRate;
 					toItem.txRate = txRate;
+					
+					if(rxRate < 10)
+						toItem.rxRateStr = int(rxRate*1000) + " bits";
+					else if(rxRate < 10000)
+						toItem.rxRateStr = int(rxRate) + " Kbits";
+					else if(rxRate < 10000000)
+						toItem.rxRateStr = int(rxRate/1000) + " Mbits";
+					else
+						toItem.rxRateStr = int(rxRate/1000000) + " Gbits";
+					
+					if(txRate < 10)
+						toItem.txRateStr = int(txRate*1000) + " bits";
+					else if(txRate < 10000)
+						toItem.txRateStr = int(txRate) + " Kbits";
+					else if(txRate < 10000000)
+						toItem.txRateStr = int(txRate/1000) + " Mbits";
+					else
+						toItem.txRateStr = int(txRate/1000000) + " Gbits";
+					
 					//Alert.show(toItem.id + " " + toItem.rxRate + " " + toItem.txRate);
 					
 					bandwidth = edge.attribute(bwName);
@@ -378,6 +432,8 @@ package com.adobe.flex.extras.controls.springgraph
 					{
 						rxPercent = (rxRate/bandwidth) * 100; /*unit of bandwidth is 1 K bps*/
 						txPercent = (txRate/bandwidth) * 100;
+						toItem.rxPercent = rxPercent;
+						toItem.txPercent = txPercent;
 					}
 					
 					var data1:Object = new Object();
@@ -403,8 +459,13 @@ package com.adobe.flex.extras.controls.springgraph
 					}
 					data1["rxRate"] = rxRate;
 					data1["txRate"] = txRate;
+					data1["rxRateStr"] = toItem.rxRateStr;
+					data1["txRateStr"] = toItem.txRateStr;
+					data1["rxPercent"] = rxPercent;
+					data1["txPercent"] = txPercent;
 					data1["idx"] = edge.attribute(idxName);
 					data1["toNodeID"] = toItem.id;
+										
 					
 					var data2:Object = new Object();
 					if(edge.attribute(idxName) == "-1" || isHideLine == true)
@@ -428,6 +489,10 @@ package com.adobe.flex.extras.controls.springgraph
 					}
 					data2["rxRate"] = rxRate;
 					data2["txRate"] = txRate;
+					data2["rxRateStr"] = toItem.rxRateStr;
+					data2["txRateStr"] = toItem.txRateStr;
+					data2["rxPercent"] = rxPercent;
+					data2["txPercent"] = txPercent;
 					data2["idx"] = edge.attribute(idxName);
 					data2["toNodeID"] = toItem.id;
 										

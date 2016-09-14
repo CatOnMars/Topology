@@ -41,6 +41,10 @@ package com.adobe.flex.extras.controls.springgraph
 		private var _data: Object = null;
 		public var txt:TextField = new TextField();
 		public var hiddenNodes:TextField = new TextField();
+		//public var rxRateTxt:TextField = new TextField();
+		public var rxRateTxt: Object = new Object();
+		//public var txRateTxt:TextField = new TextField();
+		public var txRateTxt: Object = new Object();
 		public var devPic:MovieClip = null;
 		public var statusCircle:MovieClip = null;
 		public var atkPic:MovieClip = null;
